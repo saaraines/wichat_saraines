@@ -1,29 +1,20 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-architecture-constraints]]
-== Architecture Constraints
+== Restricciones arquitectónicas
+
+=== Restricciones técnicas
+|===
+|*Restricción* | *Descripción*
+| Documentación | Se utilizará la plantilla Arc42.
+| Control de versiones | Se utilizará Git y se alojará en GitHub.
+| Host | Se desplegará en un host de Docker.
+| API | Se utilizará una API de WikiData para obtener la información de las preguntas (fotografía, respuesta correcta y distractores). API de Gemini para la interacción con el LLM.
+| Pruebas de carga | Se utilizará Gatling.
+|===
 
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
+=== Restricciones organizativas
 
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
-
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
-
-
-.Further Information
-
-See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
-
-****
-endif::arc42help[]
+Al tratarse de un proyecto en forma individual no será necesario hacer reuniones ni tomar decisiones en equipo, por lo que trataré de ir registrando todo en issues y dividir el trabajo en secciones para ir realizando el software de forma incremental sin complicaciones.
+En el caso de que alguien tuviera que editar este código todo estará bien estructurado y explicado para que no hubiera problemas.
