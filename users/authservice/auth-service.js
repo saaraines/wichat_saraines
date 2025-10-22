@@ -41,14 +41,30 @@ app.post('/login',  [
     let password =req.body.password.toString();
     // Find the user by username in the database
     const user = await User.findOne({ username });
-    
+
 
     // Check if the user exists and verify the password
     if (user && await bcrypt.compare(password, user.password)) {
-      // Generate a JWT token
-      const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
-      // Respond with the token and user information
-      res.json({ token: token, username: username, createdAt: user.createdAt });
+
+      // NUEVO: Verificar si el usuario está bloqueado
+      if (user.isBlocked) {
+        return res.status(403).json({ error: 'User is blocked' });
+      }
+
+      // MODIFICADO: Incluir el rol en el token
+      const token = jwt.sign(
+          { userId: user._id, role: user.role },
+          'your-secret-key',
+          { expiresIn: '1h' }
+      );
+
+      // MODIFICADO: Devolver también el rol
+      res.json({
+        token: token,
+        username: username,
+        role: user.role,
+        createdAt: user.createdAt
+      });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }

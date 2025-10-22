@@ -20,19 +20,51 @@ const Login = () => {
     try {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
+      // NUEVO: Guardar el rol en localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', response.data.username);
+      localStorage.setItem('role', response.data.role);
+
       const question = "Please, generate a greeting message for a student called " + username + " that is a student of the Software Architecture course in the University of Oviedo. Be nice and polite. Two to three sentences max.";
       const model = "empathy"
       const message = await axios.post(`${apiEndpoint}/askllm`, { question, model })
       setMessage(message.data.answer);
       // Extract data from the response
-      const { createdAt: userCreatedAt } = response.data;
+      const { createdAt: userCreatedAt, role } = response.data;
 
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
 
       setOpenSnackbar(true);
+      setOpenSnackbar(true);
+
+      // NUEVO: Redirigir después de 2 segundos según el rol
+      setTimeout(() => {
+        if (role === 'admin') {
+          window.location.href = '/admin';
+        } else {
+          window.location.href = '/game';
+        }
+      }, 2000);
     } catch (error) {
-      setError(error.response.data.error);
+      // NUEVO: Manejar diferentes tipos de errores
+      if (error.response) {
+        if (error.response.status === 403) {
+          // Usuario bloqueado
+          setError('Tu cuenta ha sido bloqueada. Contacta con un administrador.');
+          // OPCIONAL: Redirigir a una página especial de bloqueado
+          setTimeout(() => {
+            window.location.href = '/blocked';
+          }, 2000);
+        } else if (error.response.status === 401) {
+          // Credenciales incorrectas
+          setError('Usuario o contraseña incorrectos');
+        } else {
+          setError(error.response.data.error || 'Error al iniciar sesión');
+        }
+      } else {
+        setError('No se pudo conectar con el servidor');
+      }
     }
   };
 
