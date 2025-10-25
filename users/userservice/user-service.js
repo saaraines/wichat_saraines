@@ -44,6 +44,87 @@ app.post('/adduser', async (req, res) => {
         res.status(400).json({ error: error.message }); 
     }});
 
+// Obtener todos los usuarios (para el dashboard admin)
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({}, '-password');
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// NUEVO: Obtener un usuario específico por ID
+app.get('/users/:userId', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId, '-password');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Bloquear/Desbloquear usuario
+app.put('/users/:userId/block', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { isBlocked } = req.body;
+
+        if (typeof isBlocked !== 'boolean') {
+            return res.status(400).json({ error: 'isBlocked must be a boolean' });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { isBlocked: isBlocked },
+            { new: true, select: '-password' }
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({
+            message: `User ${isBlocked ? 'blocked' : 'unblocked'} successfully`,
+            user: user
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Cambiar rol de usuario
+app.put('/users/:userId/role', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { role } = req.body;
+
+        if (!['admin', 'user'].includes(role)) {
+            return res.status(400).json({ error: 'Role must be "admin" or "user"' });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { role: role },
+            { new: true, select: '-password' }
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({
+            message: 'Role updated successfully',
+            user: user
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);
 });

@@ -7,6 +7,8 @@ const swaggerUi = require('swagger-ui-express');
 const fs = require("fs")
 const YAML = require('yaml')
 
+const { authenticateToken, requireAdmin } = require('./auth-middleware');
+
 const app = express();
 const port = 8000;
 
@@ -55,6 +57,76 @@ app.post('/askllm', async (req, res) => {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
+
+// ========== RUTAS DE ADMIN ==========
+
+// Obtener todos los usuarios (solo admin)
+app.get('/admin/users', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const usersResponse = await axios.get(userServiceUrl + '/users');
+    res.json(usersResponse.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// Bloquear/desbloquear usuario (solo admin)
+app.put('/admin/users/:userId/block', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { isBlocked } = req.body;
+
+    // Verificar que no se esté bloqueando a sí mismo
+    const targetUserResponse = await axios.get(`${userServiceUrl}/users/${userId}`);
+    const targetUser = targetUserResponse.data;
+
+    // req.user viene del token JWT y contiene userId
+    if (targetUser._id === req.user.userId) {
+      return res.status(403).json({ error: 'Cannot block yourself' });
+    }
+
+    const response = await axios.put(
+        `${userServiceUrl}/users/${userId}/block`,
+        { isBlocked }
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// Cambiar rol de usuario (solo admin)
+app.put('/admin/users/:userId/role', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    // Verificar que no se esté quitando admin a sí mismo
+    const targetUserResponse = await axios.get(`${userServiceUrl}/users/${userId}`);
+    const targetUser = targetUserResponse.data;
+
+    // req.user viene del token JWT y contiene userId
+    if (targetUser._id === req.user.userId) {
+      return res.status(403).json({ error: 'Cannot change your own role' });
+    }
+
+    const response = await axios.put(
+        `${userServiceUrl}/users/${userId}/role`,
+        { role }
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// =====================================
 
 // Read the OpenAPI YAML file synchronously
 const openapiPath='./openapi.yaml'

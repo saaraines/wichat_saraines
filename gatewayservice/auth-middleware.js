@@ -1,7 +1,10 @@
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
+
+const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 
 // Verificar que el token sea válido
-function authenticateToken(req, res, next) {
+async function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -9,12 +12,25 @@ function authenticateToken(req, res, next) {
         return res.status(401).json({ error: 'Access token required' });
     }
 
-    jwt.verify(token, 'your-secret-key', (err, user) => {
+    jwt.verify(token, 'your-secret-key', async (err, user) => {
         if (err) {
             return res.status(403).json({ error: 'Invalid or expired token' });
         }
-        req.user = user;
-        next();
+
+        // NUEVO: Verificar que el usuario no esté bloqueado
+        try {
+            const userResponse = await axios.get(`${userServiceUrl}/users/${user.userId}`);
+            const userData = userResponse.data;
+
+            if (userData.isBlocked) {
+                return res.status(403).json({ error: 'User is blocked' });
+            }
+
+            req.user = user;
+            next();
+        } catch (error) {
+            return res.status(500).json({ error: 'Error verifying user status' });
+        }
     });
 }
 

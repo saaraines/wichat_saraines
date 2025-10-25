@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Typography, Button, Box } from '@mui/material';
 
-function BlockedPage() {
+function UnauthorizedPage() {
     const handleGoBack = () => {
         window.location.href = '/';
     };
@@ -10,7 +10,7 @@ function BlockedPage() {
         <Box
             sx={{
                 minHeight: '100vh',
-                backgroundColor: '#d32f2f',
+                backgroundColor: '#f5f5f5',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -26,29 +26,33 @@ function BlockedPage() {
                     boxShadow: 3
                 }}
             >
-                <Typography variant="h3" sx={{ color: '#d32f2f', fontWeight: 'bold', marginBottom: 2 }}>
-                    CUENTA BLOQUEADA
+                <Typography variant="h1" sx={{ fontSize: 80, marginBottom: 2 }}>
+                    403
+                </Typography>
+
+                <Typography variant="h3" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
+                    Acceso Denegado
                 </Typography>
 
                 <Typography variant="body1" sx={{ marginBottom: 1, color: '#666' }}>
-                    Tu cuenta ha sido bloqueada por un administrador.
+                    No tienes permisos para acceder a esta página.
                 </Typography>
 
                 <Typography variant="body2" sx={{ marginBottom: 3, color: '#999' }}>
-                    Si crees que esto es un error, contacta con el soporte técnico.
+                    Si crees que deberías tener acceso, contacta con un administrador.
                 </Typography>
 
                 <Button
                     variant="contained"
-                    color="error"
+                    color="primary"
                     onClick={handleGoBack}
                     sx={{ marginTop: 2 }}
                 >
-                    Volver al Login
+                    Volver al Inicio
                 </Button>
             </Container>
         </Box>
     );
 }
 
-export default BlockedPage;
+export default UnauthorizedPage;
