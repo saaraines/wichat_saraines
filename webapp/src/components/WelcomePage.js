@@ -1,34 +1,75 @@
 import React, { useState } from 'react';
 import AddUser from './AddUser';
 import Login from './Login';
-import { Container, Typography, Link, CssBaseline } from '@mui/material';
+import { Container, Typography, Box, Paper, Tabs, Tab } from '@mui/material';
 
 function WelcomePage() {
-    const [showLogin, setShowLogin] = useState(true);
+    const [activeTab, setActiveTab] = useState(0);
 
-    const handleToggleView = () => {
-        setShowLogin(!showLogin);
+    const handleTabChange = (event, newValue) => {
+        setActiveTab(newValue);
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-                Welcome to the 2025 edition of the Software Architecture course!
-            </Typography>
-            {showLogin ? <Login /> : <AddUser />}
-            <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-                {showLogin ? (
-                    <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-                        Don't have an account? Register here.
-                    </Link>
-                ) : (
-                    <Link component="button" variant="body2" onClick={handleToggleView}>
-                        Already have an account? Login here.
-                    </Link>
-                )}
-            </Typography>
-        </Container>
+        <Box
+            sx={{
+                minHeight: '100vh',
+                backgroundColor: '#f5f5f5',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 2
+            }}
+        >
+            <Container component="main" maxWidth="sm">
+                <Paper
+                    elevation={3}
+                    sx={{
+                        padding: 4,
+                        borderRadius: 2,
+                        backgroundColor: 'white'
+                    }}
+                >
+                    <Typography
+                        component="h1"
+                        variant="h4"
+                        align="center"
+                        sx={{
+                            marginBottom: 3,
+                            fontWeight: 'bold',
+                            color: '#1976d2'
+                        }}
+                    >
+                        WIChat
+                    </Typography>
+
+                    <Typography
+                        variant="body2"
+                        align="center"
+                        sx={{
+                            marginBottom: 3,
+                            color: '#666'
+                        }}
+                    >
+                        Sistema de gestión de usuarios - ASW 2024/2025
+                    </Typography>
+
+                    <Tabs
+                        value={activeTab}
+                        onChange={handleTabChange}
+                        centered
+                        sx={{ marginBottom: 3 }}
+                    >
+                        <Tab label="Iniciar Sesión" />
+                        <Tab label="Registrarse" />
+                    </Tabs>
+
+                    <Box>
+                        {activeTab === 0 ? <Login /> : <AddUser />}
+                    </Box>
+                </Paper>
+            </Container>
+        </Box>
     );
 }
 
