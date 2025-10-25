@@ -30,19 +30,43 @@ app.post('/adduser', async (req, res) => {
         // Check if required fields are present in the request body
         validateRequiredFields(req, ['username', 'password']);
 
+        const { username, password } = req.body;
+
+        // NUEVO: Validar longitud del username
+        if (username.length < 3) {
+            return res.status(400).json({ error: 'El nombre de usuario debe tener al menos 3 caracteres' });
+        }
+
+        // NUEVO: Validar longitud de la contraseña
+        if (password.length < 8) {
+            return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+        }
+
+        // NUEVO: Validar que contenga al menos un número
+        if (!/\d/.test(password)) {
+            return res.status(400).json({ error: 'La contraseña debe contener al menos un número' });
+        }
+
+        // NUEVO: Verificar si el usuario ya existe
+        const existingUser = await User.findOne({ username: username });
+        if (existingUser) {
+            return res.status(409).json({ error: 'El nombre de usuario ya existe' });
+        }
+
         // Encrypt the password before saving it
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
-            username: req.body.username,
+            username: username,
             password: hashedPassword,
         });
 
         await newUser.save();
         res.json(newUser);
     } catch (error) {
-        res.status(400).json({ error: error.message }); 
-    }});
+        res.status(400).json({ error: error.message });
+    }
+});
 
 // Obtener todos los usuarios (para el dashboard admin)
 app.get('/users', async (req, res) => {
