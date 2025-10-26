@@ -3,7 +3,7 @@ const axios = require('axios');
 const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 //libraries required for OpenAPI-Swagger
-const swaggerUi = require('swagger-ui-express'); 
+const swaggerUi = require('swagger-ui-express');
 const fs = require("fs")
 const YAML = require('yaml')
 
@@ -15,6 +15,7 @@ const port = 8000;
 const llmServiceUrl = process.env.LLM_SERVICE_URL || 'http://localhost:8003';
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
+const questionServiceUrl = process.env.QUESTION_SERVICE_URL || 'http://localhost:8004';
 
 app.use(cors());
 app.use(express.json());
@@ -126,7 +127,64 @@ app.put('/admin/users/:userId/role', authenticateToken, requireAdmin, async (req
   }
 });
 
-// =====================================
+// ========== RUTAS DE PREGUNTAS (ADMIN) ==========
+
+// Generar preguntas (solo admin)
+app.post('/admin/questions/generate', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const response = await axios.post(`${questionServiceUrl}/admin/generate`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// Obtener todas las preguntas (solo admin)
+app.get('/admin/questions', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const response = await axios.get(`${questionServiceUrl}/admin/questions`, {
+      params: req.query
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// Eliminar pregunta (solo admin)
+app.delete('/admin/questions/:id', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const response = await axios.delete(`${questionServiceUrl}/admin/questions/${req.params.id}`);
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// ========== RUTAS DE JUEGO (JUGADORES) ==========
+
+// Obtener pregunta aleatoria (usuarios autenticados)
+app.get('/game/question', authenticateToken, async (req, res) => {
+  try {
+    const response = await axios.get(`${questionServiceUrl}/questions/random`, {
+      params: req.query
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// ==========================================
+
 
 // Read the OpenAPI YAML file synchronously
 const openapiPath='./openapi.yaml'

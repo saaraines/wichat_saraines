@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Typography, Box, Card, CardContent, CardActionArea } from '@mui/material';
 import UserManagement from './UserManagement';
+import QuestionManagement from './QuestionManagement';
 
 function AdminDashboard() {
     const [selectedSection, setSelectedSection] = useState(null);
@@ -54,6 +55,11 @@ function AdminDashboard() {
         return <UserManagement onBack={() => setSelectedSection(null)} />;
     }
 
+    // NUEVO: Gestión de preguntas
+    if (selectedSection === 'questions') {
+        return <QuestionManagement onBack={() => setSelectedSection(null)} />;
+    }
+
     if (selectedSection === 'stats') {
         return (
             <Container sx={{ marginTop: 4, textAlign: 'center' }}>
@@ -70,21 +76,7 @@ function AdminDashboard() {
         );
     }
 
-    if (selectedSection === 'categories') {
-        return (
-            <Container sx={{ marginTop: 4, textAlign: 'center' }}>
-                <Typography variant="h4" sx={{ marginBottom: 2 }}>
-                    Gestión de Categorías
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                    Pendiente de implementación
-                </Typography>
-                <button onClick={() => setSelectedSection(null)} style={{ marginTop: 20 }}>
-                    Volver
-                </button>
-            </Container>
-        );
-    }
+
 
     // Vista principal con los 3 botones
     return (
@@ -129,15 +121,15 @@ function AdminDashboard() {
                     </CardActionArea>
                 </Card>
 
-                {/* Botón Categorías */}
+                {/* Botón Preguntas (antes era Categorías) */}
                 <Card sx={{ width: 250, boxShadow: 2 }}>
-                    <CardActionArea onClick={() => setSelectedSection('categories')}>
+                    <CardActionArea onClick={() => setSelectedSection('questions')}>
                         <CardContent sx={{ textAlign: 'center', padding: 4 }}>
                             <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#ed6c02' }}>
-                                CATEGORÍAS
+                                PREGUNTAS
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ marginTop: 2 }}>
-                                Gestionar categorías del juego
+                                Generar y gestionar preguntas del juego
                             </Typography>
                         </CardContent>
                     </CardActionArea>
