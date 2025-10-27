@@ -20,7 +20,8 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogActions
+    DialogActions,
+    TablePagination
 } from '@mui/material';
 import axios from 'axios';
 
@@ -30,8 +31,11 @@ function QuestionManagement({ onBack }) {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [category, setCategory] = useState('Capitales');
+    const [filterCategory, setFilterCategory] = useState('all');
     const [generating, setGenerating] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(15);
 
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -125,6 +129,19 @@ function QuestionManagement({ onBack }) {
         setSelectedImage(null);
     };
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const filteredQuestions = filterCategory === 'all'
+        ? questions
+        : questions.filter(q => q.category === filterCategory);
+
     if (loading) {
         return (
             <Container sx={{ marginTop: 4, textAlign: 'center' }}>
@@ -195,14 +212,36 @@ function QuestionManagement({ onBack }) {
                 </Box>
             </Paper>
 
-            {/* Tabla de preguntas */}
-            <Typography variant="h6" sx={{ marginBottom: 2 }}>
-                Preguntas Existentes ({questions.length})
-            </Typography>
+            {/* Filtro y título */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+                <Typography variant="h6">
+                    Preguntas Existentes ({filteredQuestions.length})
+                </Typography>
 
-            {questions.length === 0 ? (
+                <FormControl sx={{ minWidth: 200 }}>
+                    <InputLabel>Filtrar por Categoría</InputLabel>
+                    <Select
+                        value={filterCategory}
+                        label="Filtrar por Categoría"
+                        onChange={(e) => {
+                            setFilterCategory(e.target.value);
+                            setPage(0);
+                        }}
+                    >
+                        <MenuItem value="all">Todas las categorías</MenuItem>
+                        {categories.map((cat) => (
+                            <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </Box>
+
+            {filteredQuestions.length === 0 ? (
                 <Alert severity="info">
-                    No hay preguntas generadas. Usa el panel superior para generar algunas.
+                    {filterCategory === 'all'
+                        ? 'No hay preguntas generadas. Usa el panel superior para generar algunas.'
+                        : `No hay preguntas de la categoría "${filterCategory}".`
+                    }
                 </Alert>
             ) : (
                 <TableContainer component={Paper}>
@@ -218,42 +257,55 @@ function QuestionManagement({ onBack }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {questions.map((question) => (
-                                <TableRow key={question._id} hover>
-                                    <TableCell>
-                                        <img
-                                            src={question.imageUrl}
-                                            alt="Question"
-                                            style={{
-                                                width: 60,
-                                                height: 60,
-                                                objectFit: 'cover',
-                                                cursor: 'pointer',
-                                                borderRadius: 4
-                                            }}
-                                            onClick={() => handleImageClick(question.imageUrl)}
-                                        />
-                                    </TableCell>
-                                    <TableCell>{question.question}</TableCell>
-                                    <TableCell>{question.correctAnswer}</TableCell>
-                                    <TableCell>{question.category}</TableCell>
-                                    <TableCell>
-                                        {new Date(question.createdAt).toLocaleDateString()}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Button
-                                            variant="contained"
-                                            color="error"
-                                            size="small"
-                                            onClick={() => handleDelete(question._id)}
-                                        >
-                                            Eliminar
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                            {filteredQuestions
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((question) => (
+                                    <TableRow key={question._id} hover>
+                                        <TableCell>
+                                            <img
+                                                src={question.imageUrl}
+                                                alt="Question"
+                                                style={{
+                                                    width: 60,
+                                                    height: 60,
+                                                    objectFit: 'cover',
+                                                    cursor: 'pointer',
+                                                    borderRadius: 4
+                                                }}
+                                                onClick={() => handleImageClick(question.imageUrl)}
+                                            />
+                                        </TableCell>
+                                        <TableCell>{question.question}</TableCell>
+                                        <TableCell>{question.correctAnswer}</TableCell>
+                                        <TableCell>{question.category}</TableCell>
+                                        <TableCell>
+                                            {new Date(question.createdAt).toLocaleDateString()}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Button
+                                                variant="contained"
+                                                color="error"
+                                                size="small"
+                                                onClick={() => handleDelete(question._id)}
+                                            >
+                                                Eliminar
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
+                    <TablePagination
+                        component="div"
+                        count={filteredQuestions.length}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        rowsPerPageOptions={[15, 30, 50]}
+                        labelRowsPerPage="Preguntas por página:"
+                        labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
+                    />
                 </TableContainer>
             )}
 

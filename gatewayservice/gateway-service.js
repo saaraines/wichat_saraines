@@ -167,8 +167,6 @@ app.delete('/admin/questions/:id', authenticateToken, requireAdmin, async (req, 
   }
 });
 
-// ========== RUTAS DE JUEGO (JUGADORES) ==========
-
 // Obtener pregunta aleatoria (usuarios autenticados)
 app.get('/game/question', authenticateToken, async (req, res) => {
   try {
@@ -184,7 +182,46 @@ app.get('/game/question', authenticateToken, async (req, res) => {
 });
 
 // ==========================================
+// ========== RUTAS DE JUEGO NUEVAS ==========
 
+// Iniciar partida (usuarios autenticados)
+app.post('/game/start', authenticateToken, async (req, res) => {
+  try {
+    const response = await axios.post(`${questionServiceUrl}/game/start`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// Responder pregunta (usuarios autenticados)
+app.post('/game/:gameId/answer', authenticateToken, async (req, res) => {
+  try {
+    const response = await axios.post(
+        `${questionServiceUrl}/game/${req.params.gameId}/answer`,
+        req.body
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
+
+// Obtener historial de partidas (usuarios autenticados)
+app.get('/game/history/:userId', authenticateToken, async (req, res) => {
+  try {
+    const response = await axios.get(`${questionServiceUrl}/game/history/${req.params.userId}`);
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Internal Server Error'
+    });
+  }
+});
 
 // Read the OpenAPI YAML file synchronously
 const openapiPath='./openapi.yaml'

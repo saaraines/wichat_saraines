@@ -6,6 +6,7 @@ import UnauthorizedPage from './components/UnauthorizedPage';
 import AdminDashboard from './components/AdminDashboard';
 import WelcomePage from './components/WelcomePage';
 import ProtectedRoute from './components/ProtectedRoute';
+import UserStats from './components/UserStats';
 
 function AppRoutes() {
     return (
@@ -32,6 +33,15 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute requiredRole="admin">
                         <AdminDashboard />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/stats"
+                element={
+                    <ProtectedRoute>
+                        <UserStats />
                     </ProtectedRoute>
                 }
             />

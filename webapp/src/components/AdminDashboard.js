@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Typography, Box, Card, CardContent, CardActionArea } from '@mui/material';
 import UserManagement from './UserManagement';
 import QuestionManagement from './QuestionManagement';
+import AdminStats from './AdminStats';
 
 function AdminDashboard() {
     const [selectedSection, setSelectedSection] = useState(null);
@@ -55,25 +56,12 @@ function AdminDashboard() {
         return <UserManagement onBack={() => setSelectedSection(null)} />;
     }
 
-    // NUEVO: Gestión de preguntas
     if (selectedSection === 'questions') {
         return <QuestionManagement onBack={() => setSelectedSection(null)} />;
     }
 
     if (selectedSection === 'stats') {
-        return (
-            <Container sx={{ marginTop: 4, textAlign: 'center' }}>
-                <Typography variant="h4" sx={{ marginBottom: 2 }}>
-                    Estadísticas
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                    Pendiente de implementación
-                </Typography>
-                <button onClick={() => setSelectedSection(null)} style={{ marginTop: 20 }}>
-                    Volver
-                </button>
-            </Container>
-        );
+        return <AdminStats onBack={() => setSelectedSection(null)} />;
     }
 
 

@@ -12,7 +12,8 @@ import {
     Button,
     Box,
     Chip,
-    CircularProgress
+    CircularProgress,
+    TablePagination
 } from '@mui/material';
 import axios from 'axios';
 
@@ -20,10 +21,11 @@ function UserManagement({ onBack }) {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(15);
 
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-    // Cargar usuarios al montar el componente
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -42,7 +44,6 @@ function UserManagement({ onBack }) {
             setUsers(response.data);
             setLoading(false);
         } catch (error) {
-            // NUEVO: Si está bloqueado, cerrar sesión
             if (error.response?.status === 403) {
                 localStorage.clear();
                 window.location.href = '/';
@@ -71,7 +72,6 @@ function UserManagement({ onBack }) {
 
             fetchUsers();
         } catch (error) {
-            // NUEVO: Si está bloqueado, cerrar sesión
             if (error.response?.status === 403) {
                 localStorage.clear();
                 window.location.href = '/';
@@ -101,7 +101,6 @@ function UserManagement({ onBack }) {
 
             fetchUsers();
         } catch (error) {
-            // NUEVO: Si está bloqueado, cerrar sesión
             if (error.response?.status === 403) {
                 localStorage.clear();
                 window.location.href = '/';
@@ -111,6 +110,15 @@ function UserManagement({ onBack }) {
             alert('Error al cambiar rol');
             console.error(error);
         }
+    };
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     };
 
     if (loading) {
@@ -153,57 +161,70 @@ function UserManagement({ onBack }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map((user) => (
-                            <TableRow key={user._id} hover>
-                                <TableCell>{user.username}</TableCell>
-                                <TableCell>
-                                    <Chip
-                                        label={user.role === 'admin' ? 'Admin' : 'Usuario'}
-                                        color={user.role === 'admin' ? 'primary' : 'default'}
-                                        size="small"
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Chip
-                                        label={user.isBlocked ? 'Bloqueado' : 'Activo'}
-                                        color={user.isBlocked ? 'error' : 'success'}
-                                        size="small"
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    {new Date(user.createdAt).toLocaleDateString()}
-                                </TableCell>
-                                <TableCell align="center">
-                                    {user.username === localStorage.getItem('username') ? (
-                                        <Typography variant="body2" color="text.secondary">
-                                            (Tú mismo)
-                                        </Typography>
-                                    ) : (
-                                        <>
-                                            <Button
-                                                variant="contained"
-                                                color="error"
-                                                size="small"
-                                                onClick={() => handleBlock(user._id, user.isBlocked)}
-                                                sx={{ marginRight: 1 }}
-                                            >
-                                                {user.isBlocked ? 'Desbloquear' : 'Bloquear'}
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                color="success"
-                                                size="small"
-                                                onClick={() => handleRoleChange(user._id, user.role)}
-                                            >
-                                                {user.role === 'admin' ? 'Quitar Admin' : 'Hacer Admin'}
-                                            </Button>
-                                        </>
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {users
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((user) => (
+                                <TableRow key={user._id} hover>
+                                    <TableCell>{user.username}</TableCell>
+                                    <TableCell>
+                                        <Chip
+                                            label={user.role === 'admin' ? 'Admin' : 'Usuario'}
+                                            color={user.role === 'admin' ? 'primary' : 'default'}
+                                            size="small"
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Chip
+                                            label={user.isBlocked ? 'Bloqueado' : 'Activo'}
+                                            color={user.isBlocked ? 'error' : 'success'}
+                                            size="small"
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        {new Date(user.createdAt).toLocaleDateString()}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.username === localStorage.getItem('username') ? (
+                                            <Typography variant="body2" color="text.secondary">
+                                                (Tú mismo)
+                                            </Typography>
+                                        ) : (
+                                            <>
+                                                <Button
+                                                    variant="contained"
+                                                    color="error"
+                                                    size="small"
+                                                    onClick={() => handleBlock(user._id, user.isBlocked)}
+                                                    sx={{ marginRight: 1 }}
+                                                >
+                                                    {user.isBlocked ? 'Desbloquear' : 'Bloquear'}
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    color="success"
+                                                    size="small"
+                                                    onClick={() => handleRoleChange(user._id, user.role)}
+                                                >
+                                                    {user.role === 'admin' ? 'Quitar Admin' : 'Hacer Admin'}
+                                                </Button>
+                                            </>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
+                <TablePagination
+                    component="div"
+                    count={users.length}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    rowsPerPageOptions={[15, 30, 50]}
+                    labelRowsPerPage="Usuarios por página:"
+                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
+                />
             </TableContainer>
         </Container>
     );
