@@ -442,7 +442,7 @@ app.post('/game/:gameId/answer', async (req, res) => {
         // Actualizar estadísticas
         if (isCorrect) {
             game.correctAnswers += 1;
-            game.score += 100; 
+            game.score += 100;
         } else {
             game.incorrectAnswers += 1;
         }
@@ -462,11 +462,10 @@ app.post('/game/:gameId/answer', async (req, res) => {
     }
 });
 
-// Obtener historial de partidas de un usuario
 app.get('/game/history/:userId', async (req, res) => {
     try {
         const { userId } = req.params;
-        const games = await Game.find({ userId }).sort({ completedAt: -1 }).limit(10);
+        const games = await Game.find({ userId }).sort({ completedAt: -1 });
         res.json(games);
     } catch (error) {
         res.status(500).json({ error: error.message });
