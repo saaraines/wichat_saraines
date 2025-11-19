@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import UserLayout from './UserLayout';
+import HintChat from './HintChat';
 
 function GamePage() {
     const [gameState, setGameState] = useState('start'); // start, playing, finished
@@ -22,13 +23,14 @@ function GamePage() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('Capitales');
-    const [timeLeft, setTimeLeft] = useState(20);
+    const [timeLeft, setTimeLeft] = useState(30);
     const [score, setScore] = useState(0);
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [lastAnswerCorrect, setLastAnswerCorrect] = useState(false);
     const [correctAnswer, setCorrectAnswer] = useState('');
+    const [hintChatOpen, setHintChatOpen] = useState(false);
 
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -70,7 +72,7 @@ function GamePage() {
             setQuestions(response.data.questions);
             setGameState('playing');
             setCurrentQuestionIndex(0);
-            setTimeLeft(20);
+            setTimeLeft(30);
             setScore(0);
             setResults([]);
             setLoading(false);
@@ -91,7 +93,7 @@ function GamePage() {
                 {
                     questionId: currentQuestion._id,
                     answer: null,
-                    timeSpent: 20
+                    timeSpent: 30
                 },
                 {
                     headers: {
@@ -121,11 +123,11 @@ function GamePage() {
 
                 if (currentQuestionIndex < questions.length - 1) {
                     setCurrentQuestionIndex(currentQuestionIndex + 1);
-                    setTimeLeft(20);
+                    setTimeLeft(30);
                 } else {
                     setGameState('finished');
                 }
-            }, 2000);
+            }, 3000);
 
         } catch (error) {
             console.error('Error on timeout:', error);
@@ -389,6 +391,29 @@ function GamePage() {
                             </Button>
                         ))}
                     </Box>
+
+                    {/* Botón de pistas flotante */}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setHintChatOpen(!hintChatOpen)}
+                        disabled={showResult}
+                        sx={{
+                            position: 'fixed',
+                            bottom: 20,
+                            right: 20,
+                            zIndex: 1200
+                        }}
+                    >
+                        Pistas
+                    </Button>
+
+                    {/* Chat de pistas */}
+                    <HintChat
+                        open={hintChatOpen}
+                        onClose={() => setHintChatOpen(false)}
+                        currentQuestion={currentQuestion}
+                    />
                 </Container>
             </UserLayout>
         );

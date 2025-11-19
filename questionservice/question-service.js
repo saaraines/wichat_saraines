@@ -386,11 +386,12 @@ app.post('/game/start', async (req, res) => {
 
         await game.save();
 
-        // Devolver las preguntas sin la respuesta correcta
+        // Devolver las preguntas CON la respuesta correcta (para el sistema de pistas)
         const questionsForClient = questions.map(q => ({
             _id: q._id,
             question: q.question,
             imageUrl: q.imageUrl,
+            correctAnswer: q.correctAnswer, // Añadido para el sistema de pistas
             options: [...q.incorrectAnswers, q.correctAnswer].sort(() => Math.random() - 0.5)
         }));
 
@@ -441,7 +442,7 @@ app.post('/game/:gameId/answer', async (req, res) => {
         // Actualizar estadísticas
         if (isCorrect) {
             game.correctAnswers += 1;
-            game.score += 100; // Puedes ajustar el puntaje
+            game.score += 100; 
         } else {
             game.incorrectAnswers += 1;
         }

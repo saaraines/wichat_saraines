@@ -223,6 +223,18 @@ app.get('/game/history/:userId', authenticateToken, async (req, res) => {
   }
 });
 
+// Pedir pista al LLM
+app.post('/hint', authenticateToken, async (req, res) => {
+  try {
+    const response = await axios.post(`${llmServiceUrl}/hint`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.error || 'Error al obtener pista'
+    });
+  }
+});
+
 // Read the OpenAPI YAML file synchronously
 const openapiPath='./openapi.yaml'
 if (fs.existsSync(openapiPath)) {
