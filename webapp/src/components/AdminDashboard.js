@@ -4,6 +4,7 @@ import { Container, Typography, Box, Card, CardContent, CardActionArea } from '@
 import UserManagement from './UserManagement';
 import QuestionManagement from './QuestionManagement';
 import AdminStats from './AdminStats';
+import AdminLayout from './AdminLayout';
 
 function AdminDashboard() {
     const [selectedSection, setSelectedSection] = useState(null);
@@ -45,85 +46,99 @@ function AdminDashboard() {
     // Mostrar loading mientras verifica
     if (loading) {
         return (
-            <Container sx={{ marginTop: 4, textAlign: 'center' }}>
-                <Typography>Cargando...</Typography>
-            </Container>
+            <AdminLayout>
+                <Container sx={{ marginTop: 4, textAlign: 'center' }}>
+                    <Typography>Cargando...</Typography>
+                </Container>
+            </AdminLayout>
         );
     }
 
     // Si hay una sección seleccionada, mostrarla
     if (selectedSection === 'users') {
-        return <UserManagement onBack={() => setSelectedSection(null)} />;
+        return (
+            <AdminLayout>
+                <UserManagement onBack={() => setSelectedSection(null)} />
+            </AdminLayout>
+        );
     }
 
     if (selectedSection === 'questions') {
-        return <QuestionManagement onBack={() => setSelectedSection(null)} />;
+        return (
+            <AdminLayout>
+                <QuestionManagement onBack={() => setSelectedSection(null)} />
+            </AdminLayout>
+        );
     }
 
     if (selectedSection === 'stats') {
-        return <AdminStats onBack={() => setSelectedSection(null)} />;
+        return (
+            <AdminLayout>
+                <AdminStats onBack={() => setSelectedSection(null)} />
+            </AdminLayout>
+        );
     }
-
-
 
     // Vista principal con los 3 botones
     return (
-        <Container sx={{ marginTop: 4 }}>
-            <Typography variant="h3" sx={{ marginBottom: 4, textAlign: 'center' }}>
-                Panel de Administración
-            </Typography>
+        <AdminLayout>
+            <Container sx={{ marginTop: 4 }}>
+                <Typography variant="h3" sx={{ marginBottom: 4, textAlign: 'center' }}>
+                    Panel de Administración
+                </Typography>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    gap: 3,
-                    justifyContent: 'center',
-                    flexWrap: 'wrap'
-                }}
-            >
-                {/* Botón Usuarios */}
-                <Card sx={{ width: 250, boxShadow: 2 }}>
-                    <CardActionArea onClick={() => setSelectedSection('users')}>
-                        <CardContent sx={{ textAlign: 'center', padding: 4 }}>
-                            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#1976d2' }}>
-                                USUARIOS
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ marginTop: 2 }}>
-                                Gestionar usuarios del sistema
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 3,
+                        justifyContent: 'center',
+                        flexWrap: 'wrap'
+                    }}
+                >
+                    {/* Botón Usuarios */}
+                    <Card sx={{ width: 250, boxShadow: 2 }}>
+                        <CardActionArea onClick={() => setSelectedSection('users')}>
+                            <CardContent sx={{ textAlign: 'center', padding: 4 }}>
+                                <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#1976d2' }}>
+                                    USUARIOS
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ marginTop: 2 }}>
+                                    Gestionar usuarios del sistema
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
 
-                {/* Botón Estadísticas */}
-                <Card sx={{ width: 250, boxShadow: 2 }}>
-                    <CardActionArea onClick={() => setSelectedSection('stats')}>
-                        <CardContent sx={{ textAlign: 'center', padding: 4 }}>
-                            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#2e7d32' }}>
-                                ESTADÍSTICAS
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ marginTop: 2 }}>
-                                Ver métricas del sistema
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
+                    {/* Botón Estadísticas */}
+                    <Card sx={{ width: 250, boxShadow: 2 }}>
+                        <CardActionArea onClick={() => setSelectedSection('stats')}>
+                            <CardContent sx={{ textAlign: 'center', padding: 4 }}>
+                                <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#2e7d32' }}>
+                                    ESTADÍSTICAS
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ marginTop: 2 }}>
+                                    Ver métricas del sistema
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
 
-                {/* Botón Preguntas (antes era Categorías) */}
-                <Card sx={{ width: 250, boxShadow: 2 }}>
-                    <CardActionArea onClick={() => setSelectedSection('questions')}>
-                        <CardContent sx={{ textAlign: 'center', padding: 4 }}>
-                            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#ed6c02' }}>
-                                PREGUNTAS
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ marginTop: 2 }}>
-                                Generar y gestionar preguntas del juego
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Box>
-        </Container>
+                    {/* Botón Preguntas (antes era Categorías) */}
+                    <Card sx={{ width: 250, boxShadow: 2 }}>
+                        <CardActionArea onClick={() => setSelectedSection('questions')}>
+                            <CardContent sx={{ textAlign: 'center', padding: 4 }}>
+                                <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#ed6c02' }}>
+                                    PREGUNTAS
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ marginTop: 2 }}>
+                                    Generar y gestionar preguntas del juego
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                </Box>
+            </Container>
+        </AdminLayout>
     );
 }
 
