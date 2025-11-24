@@ -107,11 +107,17 @@ function AdminStats({ onBack }) {
     };
 
     const filterGamesByUser = () => {
+        let filtered;
         if (selectedUser === 'all') {
-            setFilteredGames(allGames);
+            filtered = allGames;
         } else {
-            setFilteredGames(allGames.filter(game => game.userId === selectedUser));
+            filtered = allGames.filter(game => game.userId === selectedUser);
         }
+
+        // Ordenar de más reciente a más antigua
+        filtered.sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
+
+        setFilteredGames(filtered);
         setPage(0);
     };
 
