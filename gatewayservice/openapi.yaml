@@ -1,70 +1,22 @@
 openapi: 3.0.0
 info:
-  title: Gatewayservice API
-  description: Gateway OpenAPI specification.
-  version: 0.2.0
+  title: WIChat API
+  description: API Gateway para el sistema WIChat - Gestión de usuarios, preguntas y juego.
+  version: 1.0.0
 servers:
   - url: http://localhost:8000
     description: Development server
   - url: http://SOMEIP:8000
     description: Production server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
 paths:
-  /adduser:
-    post:
-      summary: Add a new user to the database.
-      operationId: addUser
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                  description: User ID.
-                  example: student
-                password:
-                  type: string
-                  description: User password.
-                  example: pass
-      responses:
-        '200':
-          description: User added successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                    description: User ID
-                  password:
-                    type: string
-                    description: Hashed password
-                    example: $2b$10$ZKdNYLWFQxzt5Rei/YTc/OsZNi12YiWz30JeUFHNdAt7MyfmkTuvC
-                  _id:
-                    type: string
-                    description: Identification
-                    example: 65f756db3fa22d227a4b7c7d
-                  createdAt:
-                    type: string
-                    description: Creation date.
-                    example: '2024-03-17T20:47:23.935Z'
-                  ___v:
-                    type: integer
-                    example: '0'                                        
-        '400':
-          description: Failed to add user.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Error information.
-                    example: getaddrinfo EAI_AGAIN mongodb
   /health:
     get:
       summary: Check the health status of the service.
@@ -79,11 +31,58 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Health status.
                     example: OK
+
+  # ==================== AUTENTICACIÓN ====================
+
+  /adduser:
+    post:
+      summary: Registrar un nuevo usuario
+      operationId: addUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nombre de usuario (mínimo 3 caracteres)
+                  example: student
+                password:
+                  type: string
+                  description: Contraseña (mínimo 8 caracteres, al menos un número)
+                  example: pass1234
+      responses:
+        '200':
+          description: Usuario registrado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  _id:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Error en los datos proporcionados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Username already exists
+
   /login:
     post:
-      summary: Log in to the system.
+      summary: Iniciar sesión
       operationId: loginUser
       requestBody:
         required: true
@@ -94,15 +93,13 @@ paths:
               properties:
                 username:
                   type: string
-                  description: User ID.
                   example: student
                 password:
                   type: string
-                  description: User password.
-                  example: pass
+                  example: pass1234
       responses:
         '200':
-          description: Login successful. Returns user token, username, and creation date.
+          description: Login exitoso
           content:
             application/json:
               schema:
@@ -110,35 +107,361 @@ paths:
                 properties:
                   token:
                     type: string
-                    description: User token.
-                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY3NTZkYjNmYTIyZDIyN2E0YjdjN2QiLCJpYXQiOjE3MTA3MDg3NDUsImV4cCI6MTcxMDcxMjM0NX0.VMG_5DOyQ4GYlJQRcu1I6ICG1IGzuo2Xuei093ONHxw
+                    description: JWT token para autenticación
                   username:
                     type: string
-                    description: Username.
-                    example: student
+                  role:
+                    type: string
+                    enum: [user, admin]
                   createdAt:
                     type: string
-                    description: Creation date.
-                    example: '2024-03-17T20:47:23.935Z'
+                    format: date-time
         '401':
-          description: Invalid credentials.
+          description: Credenciales inválidas
+        '403':
+          description: Usuario bloqueado
+
+  # ==================== ADMINISTRACIÓN DE USUARIOS ====================
+
+  /admin/users:
+    get:
+      summary: Obtener lista de todos los usuarios
+      operationId: getUsers
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin - Usuarios
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    username:
+                      type: string
+                    role:
+                      type: string
+                      enum: [user, admin]
+                    isBlocked:
+                      type: boolean
+                    createdAt:
+                      type: string
+                      format: date-time
+        '403':
+          description: No autorizado - requiere rol admin
+
+  /admin/users/{userId}/block:
+    put:
+      summary: Bloquear o desbloquear un usuario
+      operationId: blockUser
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin - Usuarios
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isBlocked:
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: Estado de bloqueo actualizado
+        '403':
+          description: No puede bloquearse a sí mismo
+
+  /admin/users/{userId}/role:
+    put:
+      summary: Cambiar rol de un usuario
+      operationId: changeUserRole
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin - Usuarios
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  enum: [user, admin]
+                  example: admin
+      responses:
+        '200':
+          description: Rol actualizado correctamente
+        '403':
+          description: No puede cambiar su propio rol
+
+  # ==================== ADMINISTRACIÓN DE PREGUNTAS ====================
+
+  /admin/questions/generate:
+    post:
+      summary: Generar preguntas desde Wikidata
+      operationId: generateQuestions
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin - Preguntas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                  enum: [Capitales, Banderas, Monumentos]
+                  example: Capitales
+                count:
+                  type: integer
+                  example: 10
+      responses:
+        '200':
+          description: Preguntas generadas exitosamente
+
+        '403':
+          description: No autorizado - requiere rol admin
+
+  /admin/questions:
+    get:
+      summary: Obtener todas las preguntas generadas
+      operationId: getQuestions
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin - Preguntas
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filtrar por categoría
+      responses:
+        '200':
+          description: Lista de preguntas
+
+        '403':
+          description: No autorizado - requiere rol admin
+
+  /admin/questions/{id}:
+    delete:
+      summary: Eliminar una pregunta
+      operationId: deleteQuestion
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin - Preguntas
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pregunta eliminada correctamente
+        '404':
+          description: Pregunta no encontrada
+        '403':
+          description: No autorizado - requiere rol admin
+
+  # ==================== JUEGO ====================
+
+  /game/start:
+    post:
+      summary: Iniciar una nueva partida
+      operationId: startGame
+      security:
+        - bearerAuth: []
+      tags:
+        - Juego
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                username:
+                  type: string
+                category:
+                  type: string
+                  example: Capitales
+      responses:
+        '200':
+          description: Partida iniciada - devuelve 5 preguntas
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error:
+                  gameId:
                     type: string
-                    description: Shows the error info..
-                    example: Invalid credentials
-        '500':
-          description: Internal server error.
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        question:
+                          type: string
+                        imageUrl:
+                          type: string
+                        options:
+                          type: array
+                          items:
+                            type: string
+        '404':
+          description: No hay suficientes preguntas disponibles
+
+  /game/{gameId}/answer:
+    post:
+      summary: Responder a una pregunta
+      operationId: answerQuestion
+      security:
+        - bearerAuth: []
+      tags:
+        - Juego
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionId:
+                  type: string
+                answer:
+                  type: string
+                  nullable: true
+                timeSpent:
+                  type: integer
+                  description: Segundos empleados en responder
+      responses:
+        '200':
+          description: Respuesta procesada
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error:
+                  isCorrect:
+                    type: boolean
+                  correctAnswer:
                     type: string
-                    description: Error information.
-                    example: Internal Server Error
+                  currentScore:
+                    type: integer
+                  questionsAnswered:
+                    type: integer
+        '404':
+          description: Partida o pregunta no encontrada
+
+  /game/question:
+    get:
+      summary: Obtener una pregunta aleatoria
+      operationId: getRandomQuestion
+      security:
+        - bearerAuth: []
+      tags:
+        - Juego
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pregunta aleatoria
+
+        '404':
+          description: No hay preguntas disponibles
+
+  /game/history/{userId}:
+    get:
+      summary: Obtener historial de partidas de un usuario
+      operationId: getGameHistory
+      security:
+        - bearerAuth: []
+      tags:
+        - Estadísticas
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Historial de partidas
+          content:
+            application/json:
+              schema:
+                type: array
+
+  # ==================== LLM ====================
+
+  /askllm:
+    post:
+      summary: Consultar al modelo de lenguaje (LLM)
+      operationId: askLLM
+      tags:
+        - LLM
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                  example: ¿Cuál es la capital de Francia?
+                model:
+                  type: string
+                  example: empathy
+      responses:
+        '200':
+          description: Respuesta del LLM
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+
