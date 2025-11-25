@@ -20,6 +20,16 @@ import {
     InputLabel,
     TablePagination
 } from '@mui/material';
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer
+} from 'recharts';
 import axios from 'axios';
 
 function AdminStats({ onBack }) {
@@ -40,6 +50,8 @@ function AdminStats({ onBack }) {
         averageSuccessRate: 0,
         totalPlayers: 0
     });
+    const [categoryData, setCategoryData] = useState([]);
+    const [userCategoryData, setUserCategoryData] = useState([]);
 
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -104,21 +116,62 @@ function AdminStats({ onBack }) {
             averageSuccessRate,
             totalPlayers
         });
+
+        calculateCategoryData(games);
+    };
+
+    const calculateCategoryData = (games) => {
+        const categories = {};
+
+        games.forEach(game => {
+            if (!categories[game.category]) {
+                categories[game.category] = {
+                    category: game.category,
+                    aciertos: 0,
+                    fallos: 0
+                };
+            }
+            categories[game.category].aciertos += game.correctAnswers;
+            categories[game.category].fallos += game.incorrectAnswers;
+        });
+
+        const data = Object.values(categories);
+        setCategoryData(data);
     };
 
     const filterGamesByUser = () => {
         let filtered;
         if (selectedUser === 'all') {
             filtered = allGames;
+            setUserCategoryData([]);
         } else {
             filtered = allGames.filter(game => game.userId === selectedUser);
+            calculateUserCategoryData(filtered);
         }
 
-        // Ordenar de más reciente a más antigua
         filtered.sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
 
         setFilteredGames(filtered);
         setPage(0);
+    };
+
+    const calculateUserCategoryData = (games) => {
+        const categories = {};
+
+        games.forEach(game => {
+            if (!categories[game.category]) {
+                categories[game.category] = {
+                    category: game.category,
+                    aciertos: 0,
+                    fallos: 0
+                };
+            }
+            categories[game.category].aciertos += game.correctAnswers;
+            categories[game.category].fallos += game.incorrectAnswers;
+        });
+
+        const data = Object.values(categories);
+        setUserCategoryData(data);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -218,6 +271,25 @@ function AdminStats({ onBack }) {
                 </Paper>
             </Box>
 
+            {categoryData.length > 0 && (
+                <Paper sx={{ padding: 3, marginBottom: 4 }}>
+                    <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                        Aciertos vs Fallos por Categoría (Global)
+                    </Typography>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={categoryData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="category" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="aciertos" fill="#4caf50" name="Aciertos" />
+                            <Bar dataKey="fallos" fill="#f44336" name="Fallos" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </Paper>
+            )}
+
             <Box sx={{ marginBottom: 3 }}>
                 <FormControl sx={{ minWidth: 300 }}>
                     <InputLabel>Filtrar por Usuario</InputLabel>
@@ -235,6 +307,25 @@ function AdminStats({ onBack }) {
                     </Select>
                 </FormControl>
             </Box>
+
+            {selectedUser !== 'all' && userCategoryData.length > 0 && (
+                <Paper sx={{ padding: 3, marginBottom: 4 }}>
+                    <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                        Rendimiento de {selectedUser} por Categoría
+                    </Typography>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={userCategoryData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="category" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="aciertos" fill="#4caf50" name="Aciertos" />
+                            <Bar dataKey="fallos" fill="#f44336" name="Fallos" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </Paper>
+            )}
 
             <Typography variant="h5" sx={{ marginBottom: 2 }}>
                 Historial de Partidas {selectedUser !== 'all' && `- ${selectedUser}`}

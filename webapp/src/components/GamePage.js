@@ -17,13 +17,13 @@ import UserLayout from './UserLayout';
 import HintChat from './HintChat';
 
 function GamePage() {
-    const [gameState, setGameState] = useState('start'); // start, playing, finished
+    const [gameState, setGameState] = useState('start');
     const [gameId, setGameId] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('Capitales');
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [timeLeft, setTimeLeft] = useState(60);
     const [score, setScore] = useState(0);
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -34,7 +34,6 @@ function GamePage() {
 
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-    // Temporizador
     useEffect(() => {
         if (gameState === 'playing' && timeLeft > 0 && !showResult) {
             const timer = setTimeout(() => {
@@ -42,7 +41,6 @@ function GamePage() {
             }, 1000);
             return () => clearTimeout(timer);
         } else if (timeLeft === 0 && !showResult && gameState === 'playing') {
-            // Se acabó el tiempo
             handleTimeout();
         }
     }, [timeLeft, gameState, showResult]);
@@ -72,7 +70,7 @@ function GamePage() {
             setQuestions(response.data.questions);
             setGameState('playing');
             setCurrentQuestionIndex(0);
-            setTimeLeft(30);
+            setTimeLeft(60);
             setScore(0);
             setResults([]);
             setLoading(false);
@@ -93,7 +91,7 @@ function GamePage() {
                 {
                     questionId: currentQuestion._id,
                     answer: null,
-                    timeSpent: 30
+                    timeSpent: 60
                 },
                 {
                     headers: {
@@ -116,14 +114,13 @@ function GamePage() {
             }];
             setResults(newResults);
 
-            // Continuar después de 2 segundos
             setTimeout(() => {
                 setShowResult(false);
                 setSelectedAnswer('');
 
                 if (currentQuestionIndex < questions.length - 1) {
                     setCurrentQuestionIndex(currentQuestionIndex + 1);
-                    setTimeLeft(30);
+                    setTimeLeft(60);
                 } else {
                     setGameState('finished');
                 }
@@ -135,12 +132,12 @@ function GamePage() {
     };
 
     const handleAnswerAndContinue = async (answer) => {
-        if (showResult) return; // Evitar múltiples clicks
+        if (showResult) return;
 
         try {
             const token = localStorage.getItem('token');
             const currentQuestion = questions[currentQuestionIndex];
-            const timeSpent = 20 - timeLeft;
+            const timeSpent = 60 - timeLeft;
 
             const response = await axios.post(
                 `${apiEndpoint}/game/${gameId}/answer`,
@@ -170,14 +167,13 @@ function GamePage() {
             }];
             setResults(newResults);
 
-            // Continuar automáticamente después de 2 segundos
             setTimeout(() => {
                 setShowResult(false);
                 setSelectedAnswer('');
 
                 if (currentQuestionIndex < questions.length - 1) {
                     setCurrentQuestionIndex(currentQuestionIndex + 1);
-                    setTimeLeft(20);
+                    setTimeLeft(60);
                 } else {
                     setGameState('finished');
                 }
@@ -194,13 +190,12 @@ function GamePage() {
         setQuestions([]);
         setCurrentQuestionIndex(0);
         setSelectedAnswer('');
-        setTimeLeft(20);
+        setTimeLeft(60);
         setScore(0);
         setResults([]);
         setShowResult(false);
     };
 
-    // Pantalla de inicio
     if (gameState === 'start') {
         return (
             <UserLayout>
@@ -214,7 +209,6 @@ function GamePage() {
                             Tienes 20 segundos por pregunta.
                         </Typography>
 
-                        {/* Selector de categoría */}
                         <Paper sx={{ padding: 3, marginBottom: 4, maxWidth: 600, margin: '0 auto 32px' }}>
                             <Typography variant="h6" sx={{ marginBottom: 2 }}>
                                 Selecciona una categoría:
@@ -270,7 +264,6 @@ function GamePage() {
         );
     }
 
-    // Pantalla de juego
     if (gameState === 'playing' && questions.length > 0) {
         const currentQuestion = questions[currentQuestionIndex];
         const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
@@ -278,7 +271,6 @@ function GamePage() {
         return (
             <UserLayout>
                 <Container maxWidth="md" sx={{ marginTop: 4 }}>
-                    {/* Header con progreso */}
                     <Box sx={{ marginBottom: 3 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
                             <Typography variant="h6">
@@ -293,7 +285,6 @@ function GamePage() {
                         <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 4 }} />
                     </Box>
 
-                    {/* Temporizador */}
                     <Box sx={{ marginBottom: 3, textAlign: 'center' }}>
                         <Typography
                             variant="h4"
@@ -304,22 +295,8 @@ function GamePage() {
                         >
                             {timeLeft}s
                         </Typography>
-                        <LinearProgress
-                            variant="determinate"
-                            value={(timeLeft / 20) * 100}
-                            sx={{
-                                marginTop: 1,
-                                height: 6,
-                                borderRadius: 3,
-                                backgroundColor: '#e0e0e0',
-                                '& .MuiLinearProgress-bar': {
-                                    backgroundColor: timeLeft <= 5 ? '#d32f2f' : '#1976d2'
-                                }
-                            }}
-                        />
                     </Box>
 
-                    {/* Pregunta */}
                     <Card sx={{ marginBottom: 3 }}>
                         <CardMedia
                             component="img"
@@ -335,7 +312,6 @@ function GamePage() {
                         </CardContent>
                     </Card>
 
-                    {/* Mostrar resultado si ya respondió */}
                     {showResult && (
                         <Alert
                             severity={lastAnswerCorrect ? 'success' : 'error'}
@@ -351,7 +327,6 @@ function GamePage() {
                         </Alert>
                     )}
 
-                    {/* Opciones en cuadrícula 2x2 */}
                     <Box
                         sx={{
                             display: 'grid',
@@ -392,7 +367,6 @@ function GamePage() {
                         ))}
                     </Box>
 
-                    {/* Botón de pistas flotante */}
                     <Button
                         variant="contained"
                         color="primary"
@@ -408,7 +382,6 @@ function GamePage() {
                         Pistas
                     </Button>
 
-                    {/* Chat de pistas */}
                     <HintChat
                         open={hintChatOpen}
                         onClose={() => setHintChatOpen(false)}
@@ -419,7 +392,6 @@ function GamePage() {
         );
     }
 
-    // Pantalla de resultados
     if (gameState === 'finished') {
         const correctCount = results.filter(r => r.isCorrect).length;
         const percentage = (correctCount / results.length) * 100;

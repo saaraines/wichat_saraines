@@ -20,7 +20,7 @@ const questionSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        required: true,  // Obligatorio, siempre debe tener imagen
+        required: true,
     },
     wikidataId: {
         type: String,
