@@ -199,42 +199,41 @@ function GamePage() {
     if (gameState === 'start') {
         return (
             <UserLayout>
-                <Container maxWidth="md" sx={{ marginTop: 4 }}>
+                <Container maxWidth="md" sx={{ marginTop: 4 }} data-testid="game-start-screen">
                     <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h3" sx={{ marginBottom: 2 }}>
+                        <Typography variant="h3" sx={{ marginBottom: 2 }} data-testid="game-welcome-title">
                             Bienvenido al Juego
                         </Typography>
                         <Typography variant="body1" sx={{ marginBottom: 4, color: '#666' }}>
-                            Responde 5 preguntas sobre distintas temáticas.
-                            Tienes 20 segundos por pregunta.
+                            Selecciona una categoría y pon a prueba tus conocimientos
                         </Typography>
 
-                        <Paper sx={{ padding: 3, marginBottom: 4, maxWidth: 600, margin: '0 auto 32px' }}>
+                        <Paper sx={{ padding: 3, marginBottom: 3 }} data-testid="category-selector">
                             <Typography variant="h6" sx={{ marginBottom: 2 }}>
                                 Selecciona una categoría:
                             </Typography>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
                                 <Button
                                     variant={selectedCategory === 'Capitales' ? 'contained' : 'outlined'}
                                     onClick={() => setSelectedCategory('Capitales')}
-                                    sx={{ minWidth: 140, padding: '12px 24px' }}
                                     size="large"
+                                    data-testid="category-capitales-button"
                                 >
-                                    🌍 Capitales
+                                    🏙️ Capitales
                                 </Button>
                                 <Button
                                     variant={selectedCategory === 'Banderas' ? 'contained' : 'outlined'}
                                     onClick={() => setSelectedCategory('Banderas')}
-                                    sx={{ minWidth: 140, padding: '12px 24px' }}
                                     size="large"
+                                    data-testid="category-banderas-button"
                                 >
                                     🚩 Banderas
                                 </Button>
                                 <Button
                                     variant={selectedCategory === 'Monumentos' ? 'contained' : 'outlined'}
                                     onClick={() => setSelectedCategory('Monumentos')}
-                                    sx={{ minWidth: 140, padding: '12px 24px' }}
                                     size="large"
+                                    data-testid="category-monumentos-button"
                                 >
                                     🏛️ Monumentos
                                 </Button>
@@ -247,6 +246,7 @@ function GamePage() {
                             onClick={startGame}
                             disabled={loading}
                             sx={{ padding: '15px 50px', fontSize: '1.2rem', marginRight: 2 }}
+                            data-testid="start-game-button"
                         >
                             {loading ? 'Cargando...' : 'Comenzar Juego'}
                         </Button>
@@ -255,6 +255,7 @@ function GamePage() {
                             size="large"
                             onClick={() => window.location.href = '/stats'}
                             sx={{ padding: '15px 50px', fontSize: '1.2rem' }}
+                            data-testid="view-stats-button"
                         >
                             Ver Estadísticas
                         </Button>
@@ -270,19 +271,20 @@ function GamePage() {
 
         return (
             <UserLayout>
-                <Container maxWidth="md" sx={{ marginTop: 4 }}>
+                <Container maxWidth="md" sx={{ marginTop: 4 }} data-testid="game-playing-screen">
                     <Box sx={{ marginBottom: 3 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
-                            <Typography variant="h6">
+                            <Typography variant="h6" data-testid="question-counter">
                                 Pregunta {currentQuestionIndex + 1} de {questions.length}
                             </Typography>
                             <Chip
                                 label={`Puntuación: ${score}`}
                                 color="primary"
                                 sx={{ fontWeight: 'bold' }}
+                                data-testid="current-score"
                             />
                         </Box>
-                        <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 4 }} />
+                        <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 4 }} data-testid="game-progress" />
                     </Box>
 
                     <Box sx={{ marginBottom: 3, textAlign: 'center' }}>
@@ -292,21 +294,23 @@ function GamePage() {
                                 color: timeLeft <= 5 ? '#d32f2f' : '#1976d2',
                                 fontWeight: 'bold'
                             }}
+                            data-testid="time-left"
                         >
                             {timeLeft}s
                         </Typography>
                     </Box>
 
-                    <Card sx={{ marginBottom: 3 }}>
+                    <Card sx={{ marginBottom: 3 }} data-testid="question-card">
                         <CardMedia
                             component="img"
                             height="300"
                             image={currentQuestion.imageUrl}
                             alt="Question"
                             sx={{ objectFit: 'cover' }}
+                            data-testid="question-image"
                         />
                         <CardContent>
-                            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                            <Typography variant="h5" sx={{ fontWeight: 'bold' }} data-testid="question-text">
                                 {currentQuestion.question}
                             </Typography>
                         </CardContent>
@@ -316,11 +320,12 @@ function GamePage() {
                         <Alert
                             severity={lastAnswerCorrect ? 'success' : 'error'}
                             sx={{ marginBottom: 3 }}
+                            data-testid="answer-result"
                         >
                             {lastAnswerCorrect ? (
-                                <Typography variant="h6">¡Correcto! +100 puntos</Typography>
+                                <Typography variant="h6" data-testid="correct-answer-message">¡Correcto! +100 puntos</Typography>
                             ) : (
-                                <Typography variant="h6">
+                                <Typography variant="h6" data-testid="wrong-answer-message">
                                     Incorrecto. La respuesta correcta era: <strong>{correctAnswer}</strong>
                                 </Typography>
                             )}
@@ -334,6 +339,7 @@ function GamePage() {
                             gap: 2,
                             marginBottom: 3
                         }}
+                        data-testid="answer-options"
                     >
                         {currentQuestion.options.map((option, index) => (
                             <Button
@@ -344,6 +350,7 @@ function GamePage() {
                                     handleAnswerAndContinue(option);
                                 }}
                                 disabled={showResult}
+                                data-testid={`answer-option-${index}`}
                                 sx={{
                                     padding: 3,
                                     fontSize: '1rem',
@@ -372,6 +379,7 @@ function GamePage() {
                         color="primary"
                         onClick={() => setHintChatOpen(!hintChatOpen)}
                         disabled={showResult}
+                        data-testid="hint-button"
                         sx={{
                             position: 'fixed',
                             bottom: 20,
@@ -398,9 +406,9 @@ function GamePage() {
 
         return (
             <UserLayout>
-                <Container maxWidth="md" sx={{ marginTop: 4 }}>
+                <Container maxWidth="md" sx={{ marginTop: 4 }} data-testid="game-finished-screen">
                     <Paper sx={{ padding: 4, textAlign: 'center' }}>
-                        <Typography variant="h3" sx={{ marginBottom: 2 }}>
+                        <Typography variant="h3" sx={{ marginBottom: 2 }} data-testid="game-over-title">
                             ¡Juego Terminado!
                         </Typography>
 
@@ -408,17 +416,18 @@ function GamePage() {
                             label={selectedCategory}
                             color="primary"
                             sx={{ marginBottom: 3, fontSize: '1rem', padding: 2 }}
+                            data-testid="finished-category"
                         />
 
-                        <Typography variant="h4" sx={{ marginBottom: 3, color: '#1976d2' }}>
+                        <Typography variant="h4" sx={{ marginBottom: 3, color: '#1976d2' }} data-testid="final-score">
                             Puntuación Final: {score}
                         </Typography>
 
                         <Box sx={{ marginBottom: 3 }}>
-                            <Typography variant="h6">
+                            <Typography variant="h6" data-testid="correct-count">
                                 Respuestas correctas: {correctCount} / {results.length}
                             </Typography>
-                            <Typography variant="body1" color="text.secondary">
+                            <Typography variant="body1" color="text.secondary" data-testid="percentage">
                                 {percentage.toFixed(0)}% de acierto
                             </Typography>
                         </Box>
@@ -428,6 +437,7 @@ function GamePage() {
                             size="large"
                             onClick={restartGame}
                             sx={{ marginTop: 2 }}
+                            data-testid="play-again-button"
                         >
                             Jugar de Nuevo
                         </Button>

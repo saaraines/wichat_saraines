@@ -20,6 +20,7 @@ function WelcomePage() {
                 justifyContent: 'center',
                 padding: 2
             }}
+            data-testid="welcome-page"
         >
             <Container component="main" maxWidth="sm">
                 <Paper
@@ -29,6 +30,7 @@ function WelcomePage() {
                         borderRadius: 2,
                         backgroundColor: 'white'
                     }}
+                    data-testid="welcome-paper"
                 >
                     <Typography
                         component="h1"
@@ -39,6 +41,7 @@ function WelcomePage() {
                             fontWeight: 'bold',
                             color: '#1976d2'
                         }}
+                        data-testid="app-title"
                     >
                         WIChat
                     </Typography>
@@ -50,6 +53,7 @@ function WelcomePage() {
                             marginBottom: 3,
                             color: '#666'
                         }}
+                        data-testid="app-subtitle"
                     >
                         Sistema de gestión de usuarios - ASW 2024/2025
                     </Typography>
@@ -59,12 +63,13 @@ function WelcomePage() {
                         onChange={handleTabChange}
                         centered
                         sx={{ marginBottom: 3 }}
+                        data-testid="auth-tabs"
                     >
-                        <Tab label="Iniciar Sesión" />
-                        <Tab label="Registrarse" />
+                        <Tab label="Iniciar Sesión" data-testid="login-tab" />
+                        <Tab label="Registrarse" data-testid="register-tab" />
                     </Tabs>
 
-                    <Box>
+                    <Box data-testid="auth-content">
                         {activeTab === 0 ? <Login /> : <AddUser />}
                     </Box>
                 </Paper>

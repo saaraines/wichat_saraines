@@ -74,15 +74,15 @@ const AddUser = () => {
     };
 
     return (
-        <Box>
+        <Box data-testid="register-form">
             {error && (
-                <Alert severity="error" sx={{ marginBottom: 2 }} onClose={() => setError('')}>
+                <Alert severity="error" sx={{ marginBottom: 2 }} onClose={() => setError('')} data-testid="register-error-message">
                     {error}
                 </Alert>
             )}
 
             {success && (
-                <Alert severity="success" sx={{ marginBottom: 2 }} onClose={() => setSuccess(false)}>
+                <Alert severity="success" sx={{ marginBottom: 2 }} onClose={() => setSuccess(false)} data-testid="register-success-message">
                     Usuario registrado exitosamente. Ya puedes iniciar sesión.
                 </Alert>
             )}
@@ -97,6 +97,8 @@ const AddUser = () => {
                 disabled={loading}
                 helperText="Mínimo 3 caracteres"
                 autoFocus
+                data-testid="register-username-input"
+                inputProps={{ 'data-testid': 'register-username-field' }}
             />
 
             <TextField
@@ -109,6 +111,8 @@ const AddUser = () => {
                 onKeyPress={handleKeyPress}
                 disabled={loading}
                 helperText="Mínimo 8 caracteres y al menos un número"
+                data-testid="register-password-input"
+                inputProps={{ 'data-testid': 'register-password-field' }}
             />
 
             <TextField
@@ -120,6 +124,8 @@ const AddUser = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
                 disabled={loading}
+                data-testid="register-confirm-password-input"
+                inputProps={{ 'data-testid': 'register-confirm-password-field' }}
             />
 
             <Button
@@ -128,6 +134,7 @@ const AddUser = () => {
                 fullWidth
                 onClick={addUser}
                 disabled={loading}
+                data-testid="register-submit-button"
                 sx={{
                     marginTop: 3,
                     padding: 1.5,
@@ -135,7 +142,7 @@ const AddUser = () => {
                 }}
             >
                 {loading ? (
-                    <CircularProgress size={24} color="inherit" />
+                    <CircularProgress size={24} color="inherit" data-testid="register-loading-spinner" />
                 ) : (
                     'Registrarse'
                 )}

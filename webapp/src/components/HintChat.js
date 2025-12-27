@@ -116,6 +116,7 @@ function HintChat({
         <Fade in={open}>
             <Paper
                 elevation={8}
+                data-testid="hint-chat-window"
                 sx={{
                     position: 'fixed',
                     bottom: 80,
@@ -139,6 +140,7 @@ function HintChat({
                         justifyContent: 'space-between',
                         alignItems: 'center'
                     }}
+                    data-testid="hint-chat-header"
                 >
                     <Typography variant="h6" sx={{ fontSize: '1rem' }}>
                         Asistente de Pistas
@@ -147,6 +149,7 @@ function HintChat({
                         size="small"
                         onClick={onClose}
                         sx={{ color: 'white', minWidth: 'auto' }}
+                        data-testid="hint-chat-close-button"
                     >
                         X
                     </Button>
@@ -160,9 +163,10 @@ function HintChat({
                         padding: 2,
                         backgroundColor: '#f5f5f5'
                     }}
+                    data-testid="hint-chat-messages"
                 >
                     {messages.length === 0 && (
-                        <Box sx={{ textAlign: 'center', marginTop: 4 }}>
+                        <Box sx={{ textAlign: 'center', marginTop: 4 }} data-testid="hint-chat-welcome">
                             <Typography variant="body2" color="text.secondary">
                                 ¡Hola! Pregúntame lo que quieras sobre la imagen.
                             </Typography>
@@ -176,6 +180,7 @@ function HintChat({
                         {messages.map((message, index) => (
                             <ListItem
                                 key={index}
+                                data-testid={`hint-message-${message.role}-${index}`}
                                 sx={{
                                     display: 'flex',
                                     justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
@@ -209,7 +214,7 @@ function HintChat({
                                             fontWeight: 'bold'
                                         }}
                                     >
-                                        {message.role === 'user' ? 'TÚ' : 'AI'}
+                                        {message.role === 'user' ? 'Tú' : 'AI'}
                                     </Box>
 
                                     {/* Message Bubble */}
@@ -234,7 +239,7 @@ function HintChat({
                         ))}
 
                         {loading && (
-                            <ListItem sx={{ justifyContent: 'flex-start', padding: '4px 0' }}>
+                            <ListItem sx={{ justifyContent: 'flex-start', padding: '4px 0' }} data-testid="hint-chat-loading">
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                     <Box
                                         sx={{
@@ -271,6 +276,7 @@ function HintChat({
                         borderTop: '1px solid',
                         borderColor: 'divider'
                     }}
+                    data-testid="hint-chat-input-area"
                 >
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <TextField
@@ -284,11 +290,14 @@ function HintChat({
                             disabled={loading || !currentQuestion}
                             multiline
                             maxRows={3}
+                            data-testid="hint-chat-input"
+                            inputProps={{ 'data-testid': 'hint-chat-input-field' }}
                         />
                         <Button
                             variant="contained"
                             onClick={handleSendMessage}
                             disabled={!inputMessage.trim() || loading || !currentQuestion}
+                            data-testid="hint-chat-send-button"
                             sx={{ minWidth: 'auto', px: 2 }}
                         >
                             →

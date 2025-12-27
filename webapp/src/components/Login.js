@@ -11,7 +11,6 @@ const Login = () => {
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const loginUser = async () => {
-    // Validación básica
     if (!username || !password) {
       setError('Por favor, completa todos los campos');
       return;
@@ -29,7 +28,6 @@ const Login = () => {
 
       const { role } = response.data;
 
-      // Redirigir según el rol
       setTimeout(() => {
         if (role === 'admin') {
           window.location.href = '/admin';
@@ -64,9 +62,9 @@ const Login = () => {
   };
 
   return (
-      <Box>
+      <Box data-testid="login-form">
         {error && (
-            <Alert severity="error" sx={{ marginBottom: 2 }}>
+            <Alert severity="error" sx={{ marginBottom: 2 }} data-testid="login-error-message">
               {error}
             </Alert>
         )}
@@ -80,6 +78,8 @@ const Login = () => {
             onKeyPress={handleKeyPress}
             disabled={loading}
             autoFocus
+            data-testid="login-username-input"
+            inputProps={{ 'data-testid': 'login-username-field' }}
         />
 
         <TextField
@@ -91,6 +91,8 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={loading}
+            data-testid="login-password-input"
+            inputProps={{ 'data-testid': 'login-password-field' }}
         />
 
         <Button
@@ -99,6 +101,7 @@ const Login = () => {
             fullWidth
             onClick={loginUser}
             disabled={loading}
+            data-testid="login-submit-button"
             sx={{
               marginTop: 3,
               padding: 1.5,
@@ -106,7 +109,7 @@ const Login = () => {
             }}
         >
           {loading ? (
-              <CircularProgress size={24} color="inherit" />
+              <CircularProgress size={24} color="inherit" data-testid="login-loading-spinner" />
           ) : (
               'Iniciar Sesión'
           )}

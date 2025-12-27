@@ -92,7 +92,7 @@ function UserStats() {
     if (loading) {
         return (
             <UserLayout>
-                <Container sx={{ marginTop: 4, textAlign: 'center' }}>
+                <Container sx={{ marginTop: 4, textAlign: 'center' }} data-testid="user-stats-loading">
                     <CircularProgress />
                 </Container>
             </UserLayout>
@@ -103,7 +103,7 @@ function UserStats() {
         return (
             <UserLayout>
                 <Container sx={{ marginTop: 4 }}>
-                    <Alert severity="error">{error}</Alert>
+                    <Alert severity="error" data-testid="user-stats-error">{error}</Alert>
                 </Container>
             </UserLayout>
         );
@@ -111,15 +111,15 @@ function UserStats() {
 
     return (
         <UserLayout>
-            <Container sx={{ marginTop: 4, maxWidth: 'lg' }}>
-                <Typography variant="h4" sx={{ marginBottom: 3 }}>
+            <Container sx={{ marginTop: 4, maxWidth: 'lg' }} data-testid="user-stats-container">
+                <Typography variant="h4" sx={{ marginBottom: 3 }} data-testid="user-stats-title">
                     Mis Estadísticas
                 </Typography>
 
                 {/* Resumen general */}
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, marginBottom: 4 }}>
-                    <Paper sx={{ padding: 3, textAlign: 'center' }}>
-                        <Typography variant="h3" color="primary">
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, marginBottom: 4 }} data-testid="user-stats-summary">
+                    <Paper sx={{ padding: 3, textAlign: 'center' }} data-testid="total-games-card">
+                        <Typography variant="h3" color="primary" data-testid="total-games-value">
                             {stats.totalGames}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -127,8 +127,8 @@ function UserStats() {
                         </Typography>
                     </Paper>
 
-                    <Paper sx={{ padding: 3, textAlign: 'center' }}>
-                        <Typography variant="h3" color="success.main">
+                    <Paper sx={{ padding: 3, textAlign: 'center' }} data-testid="correct-answers-card">
+                        <Typography variant="h3" color="success.main" data-testid="correct-answers-value">
                             {stats.correctAnswers}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -136,8 +136,8 @@ function UserStats() {
                         </Typography>
                     </Paper>
 
-                    <Paper sx={{ padding: 3, textAlign: 'center' }}>
-                        <Typography variant="h3" color="error.main">
+                    <Paper sx={{ padding: 3, textAlign: 'center' }} data-testid="incorrect-answers-card">
+                        <Typography variant="h3" color="error.main" data-testid="incorrect-answers-value">
                             {stats.incorrectAnswers}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -145,8 +145,8 @@ function UserStats() {
                         </Typography>
                     </Paper>
 
-                    <Paper sx={{ padding: 3, textAlign: 'center' }}>
-                        <Typography variant="h3" color="primary">
+                    <Paper sx={{ padding: 3, textAlign: 'center' }} data-testid="success-rate-card">
+                        <Typography variant="h3" color="primary" data-testid="success-rate-value">
                             {stats.successRate}%
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -154,8 +154,8 @@ function UserStats() {
                         </Typography>
                     </Paper>
 
-                    <Paper sx={{ padding: 3, textAlign: 'center' }}>
-                        <Typography variant="h3" color="primary">
+                    <Paper sx={{ padding: 3, textAlign: 'center' }} data-testid="average-score-card">
+                        <Typography variant="h3" color="primary" data-testid="average-score-value">
                             {stats.averageScore}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -165,16 +165,16 @@ function UserStats() {
                 </Box>
 
                 {/* Historial de partidas */}
-                <Typography variant="h5" sx={{ marginBottom: 2 }}>
+                <Typography variant="h5" sx={{ marginBottom: 2 }} data-testid="game-history-title">
                     Historial de Partidas
                 </Typography>
 
                 {games.length === 0 ? (
-                    <Alert severity="info">
+                    <Alert severity="info" data-testid="no-games-message">
                         No has jugado ninguna partida todavía. ¡Empieza a jugar para ver tus estadísticas!
                     </Alert>
                 ) : (
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} data-testid="games-table">
                         <Table>
                             <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
                                 <TableRow>
