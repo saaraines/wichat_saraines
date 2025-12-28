@@ -1,67 +1,171 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-runtime-view]]
-== Runtime View
+== Vista de Ejecución
 
+=== Registro de Usuario
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
+Escenario que describe cómo un nuevo usuario se registra en el sistema.
 
-* important use cases or features: how do building blocks execute them?
-* interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?
-* operation and administration: launch, start-up, stop
-* error and exception scenarios
-
-Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their *architectural relevance*. It is *not* important to describe a large number of scenarios. You should rather document a representative selection.
-
-.Motivation
-You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).
-
-.Form
-There are many notations for describing scenarios, e.g.
-
-* numbered list of steps (in natural language)
-* activity diagrams or flow charts
-* sequence diagrams
-* BPMN or EPCs (event process chains)
-* state machines
-* ...
-
-
-.Further Information
-
-See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
-
-****
-endif::arc42help[]
-
-=== <Runtime Scenario 1>
-
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
-
-[plantuml,"Sequence diagram",png]
+[plantuml, "registro-usuario", png]
 ----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+@startuml
+actor Usuario
+participant "WIQ Webapp" as Webapp
+participant "Gateway Service" as Gateway
+participant "User Service" as UserService
+participant MongoDB
+
+Usuario -> Webapp: Introduce datos de registro\n(username, password)
+Webapp -> Gateway: POST /adduser
+Gateway -> UserService: Crear nuevo usuario
+UserService -> MongoDB: Insertar usuario
+MongoDB --> UserService: Usuario creado
+UserService --> Gateway: Confirmación
+Gateway --> Webapp: Usuario registrado
+Webapp --> Usuario: Mensaje de éxito
+@enduml
 ----
 
-=== <Runtime Scenario 2>
+=== Inicio de Sesión
 
-=== ...
+Escenario que describe el proceso de autenticación de un usuario.
 
-=== <Runtime Scenario n>
+[plantuml, "login-usuario", png]
+----
+@startuml
+actor Usuario
+participant "WIQ Webapp" as Webapp
+participant "Gateway Service" as Gateway
+participant "Auth Service" as Auth
+participant MongoDB
+
+Usuario -> Webapp: Introduce credenciales\n(username, password)
+Webapp -> Gateway: POST /login
+Gateway -> Auth: Validar credenciales
+Auth -> MongoDB: Buscar usuario
+MongoDB --> Auth: Datos del usuario
+Auth -> Auth: Verificar password
+Auth --> Gateway: Token JWT
+Gateway --> Webapp: Token + datos usuario
+Webapp --> Usuario: Redirigir a juego
+@enduml
+----
+
+=== Jugar una Partida
+
+Escenario principal del juego donde el usuario responde preguntas.
+
+[plantuml, "jugar-partida", png]
+----
+@startuml
+actor Usuario
+participant "WIQ Webapp" as Webapp
+participant "Question Service" as Question
+participant MongoDB
+participant Wikidata
+
+Usuario -> Webapp: Selecciona categoría\n(Capitals/Flags/Monuments)
+Webapp -> Question: GET /questions?category=X
+Question -> MongoDB: Buscar preguntas existentes
+alt Preguntas disponibles
+    MongoDB --> Question: Preguntas encontradas
+else Sin preguntas
+    Question -> Wikidata: Obtener datos de trivia
+    Wikidata --> Question: Datos
+    Question -> Question: Generar preguntas
+    Question -> MongoDB: Guardar preguntas
+end
+Question --> Webapp: Pregunta + opciones + imagen
+Webapp --> Usuario: Mostrar pregunta
+Usuario -> Webapp: Selecciona respuesta
+Webapp -> Webapp: Validar respuesta
+Webapp -> Question: POST /game-history\n(resultado)
+Question -> MongoDB: Guardar historial
+Webapp --> Usuario: Mostrar resultado\n(correcto/incorrecto)
+@enduml
+----
+
+=== Solicitar Pista con IA
+
+Escenario donde el usuario pide ayuda mediante el sistema de hints.
+
+[plantuml, "solicitar-pista", png]
+----
+@startuml
+actor Usuario
+participant "WIQ Webapp" as Webapp
+participant "LLM Service" as LLM
+participant "Gemini API" as Gemini
+
+Usuario -> Webapp: Escribe mensaje en chat\n"Dame una pista"
+Webapp -> LLM: POST /hint\n(pregunta, opciones, historial chat)
+LLM -> LLM: Construir prompt con contexto
+LLM -> Gemini: Solicitar generación de pista
+Gemini --> LLM: Pista generada
+LLM --> Webapp: Respuesta de IA
+Webapp --> Usuario: Mostrar pista en chat
+Usuario -> Webapp: Puede pedir más pistas
+note right: El chat mantiene historial\nhasta cambiar de pregunta
+@enduml
+----
+
+=== Ver Estadísticas
+
+Escenario donde un usuario consulta sus estadísticas de juego.
+
+[plantuml, "ver-estadisticas", png]
+----
+@startuml
+actor Usuario
+participant "WIQ Webapp" as Webapp
+participant "User Service" as UserService
+participant MongoDB
+
+Usuario -> Webapp: Accede a sección estadísticas
+Webapp -> UserService: GET /user-stats/:username
+UserService -> MongoDB: Consultar historial de partidas
+MongoDB --> UserService: Datos de juegos jugados
+UserService -> UserService: Calcular estadísticas\n(aciertos, fallos, categorías)
+UserService --> Webapp: JSON con estadísticas
+Webapp -> Webapp: Generar gráficos (recharts)
+Webapp --> Usuario: Mostrar estadísticas visuales
+@enduml
+----
+
+=== Gestión de Usuarios (Admin)
+
+Escenario donde un administrador gestiona usuarios del sistema.
+
+[plantuml, "admin-gestion", png]
+----
+@startuml
+actor Admin
+participant "WIQ Webapp" as Webapp
+participant "User Service" as UserService
+participant MongoDB
+
+Admin -> Webapp: Accede a panel admin
+Webapp -> UserService: GET /users (listar todos)
+UserService -> MongoDB: Consultar usuarios
+MongoDB --> UserService: Lista de usuarios
+UserService --> Webapp: Datos de usuarios
+Webapp --> Admin: Mostrar tabla de usuarios
+
+alt Bloquear usuario
+    Admin -> Webapp: Click en bloquear usuario
+    Webapp -> UserService: PUT /users/:id/block
+    UserService -> MongoDB: Actualizar estado usuario
+    MongoDB --> UserService: Usuario bloqueado
+    UserService --> Webapp: Confirmación
+    Webapp --> Admin: Usuario bloqueado
+else Ver estadísticas globales
+    Admin -> Webapp: Ver estadísticas
+    Webapp -> UserService: GET /global-stats
+    UserService -> MongoDB: Agregar datos de todos los usuarios
+    MongoDB --> UserService: Estadísticas globales
+    UserService --> Webapp: Datos agregados
+    Webapp --> Admin: Mostrar gráficos globales
+end
+@enduml
+----

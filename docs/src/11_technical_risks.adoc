@@ -1,27 +1,31 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-technical-risks]]
-== Risks and Technical Debts
+== Riesgos y Deudas Técnicas
 
+=== Riesgos Técnicos
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
+[options="header",cols="1,2,1"]
+|===
+| Riesgo | Descripción | Probabilidad
+| *Dependencia de APIs Externas* | Si Wikidata o Gemini API caen o cambian su funcionamiento, partes del sistema dejarían de funcionar. | Media
+| *Base de Datos Compartida* | Un fallo en MongoDB afecta a todos los servicios simultáneamente. No hay aislamiento de datos. | Media
+| *Gateway como Punto Único de Fallo* | Si el Gateway Service cae, la autenticación y creación de usuarios no funcionan. | Media
+| *Límites de API de Gemini* | Exceder cuotas gratuitas o límites de rate-limiting podría bloquear el sistema de pistas. | Baja
+| *Seguridad de Contraseñas* | Si el hashing no es suficientemente robusto, las contraseñas podrían estar en riesgo. | Baja
+| *Escalabilidad del Frontend* | Al crecer el número de usuarios simultáneos, el frontend podría volverse lento sin optimizaciones. | Baja
+|===
 
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
+=== Deudas Técnicas
 
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
-
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
-
-****
-endif::arc42help[]
+[options="header",cols="1,2,1"]
+|===
+| Deuda | Descripción | Prioridad
+| *Sin caché de preguntas* | Las preguntas se consultan de MongoDB cada vez. Implementar caché en memoria mejoraría el rendimiento. | Media
+| *Validación limitada en frontend* | Algunas validaciones de formularios son básicas. Mejorar validación reduciría errores. | Baja
+| *Logs centralizados ausentes* | No hay sistema de logging unificado. Dificulta depuración en producción. | Media
+| *Sin monitorización* | No hay métricas de rendimiento ni alertas. Problemas se detectan cuando usuarios reportan. | Media
+| *Gestión manual de servicios* | Iniciar/detener servicios es manual. Docker Compose simplificaría el desarrollo. | Baja
+| *Tests E2E lentos* | Los tests de Puppeteer tardan varios minutos. Optimizar o paralelizar aceleraría CI/CD. | Baja
+| *Sin actualización automática de preguntas* | Las preguntas de Wikidata no se actualizan periódicamente. Datos pueden quedar obsoletos. | Media
+|===

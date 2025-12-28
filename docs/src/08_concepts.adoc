@@ -1,74 +1,131 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-concepts]]
-== Cross-cutting Concepts
+== Conceptos Transversales
 
+=== Seguridad
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
+==== Autenticación
+* El sistema utiliza *JWT (JSON Web Tokens)* para gestionar sesiones de usuario
+* Las contraseñas se almacenan *hasheadas* en MongoDB (nunca en texto plano)
+* El Auth Service valida credenciales y genera tokens que expiran tras un tiempo determinado
 
-* models, especially domain models
-* architecture or design patterns
-* rules for using specific technology
-* principal, often technical decisions of an overarching (= cross-cutting) nature
-* implementation rules
+==== Autorización
+* Existen dos roles: *usuario regular* y *administrador*
+* Los administradores tienen acceso a funciones adicionales:
+- Visualización de estadísticas globales
+- Gestión de usuarios (bloquear/desbloquear)
+- Acceso a panel de administración
 
+==== CORS
+* El Gateway Service configura CORS para permitir peticiones solo desde el frontend
+* Previene accesos no autorizados desde otros orígenes
 
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
-Thus, they are an important contribution to achieve inner qualities of your system.
+=== Comunicación
 
-Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
+==== API REST
+* Todos los servicios exponen endpoints REST usando Express.js
+* Formato de intercambio de datos: *JSON*
+* Uso de métodos HTTP estándar:
+- GET: Obtener datos
+- POST: Crear recursos o autenticar
+- PUT: Actualizar recursos
+- DELETE: Eliminar recursos (si aplica)
 
+==== Gestión de Errores
+* Códigos de estado HTTP apropiados:
+- 200: Éxito
+- 400: Error en petición del cliente
+- 401: No autenticado
+- 403: No autorizado
+- 404: Recurso no encontrado
+- 500: Error del servidor
+* Mensajes de error descriptivos en español
 
-.Form
-The form can be varied:
+=== Gestión de Datos
 
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
+==== Base de Datos
+* *MongoDB* como base de datos NoSQL compartida por todos los servicios
+* Colecciones principales:
+- users: Información de usuarios y credenciales
+- questions: Preguntas generadas para cada categoría
+- gameHistory: Historial de partidas jugadas
 
-.Structure
-A potential (but not mandatory) structure for this section could be:
+==== Persistencia
+* Cada servicio interactúa con MongoDB usando Mongoose (ODM)
+* Los esquemas definen la estructura de datos esperada
+* Validación de datos a nivel de modelo antes de guardar
 
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
+=== Experiencia de Usuario
 
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
+==== Interfaz
+* Diseño *responsive* que se adapta a diferentes tamaños de pantalla
+* Uso de *Material-UI* para componentes consistentes y profesionales
+* Idioma: *Español* en toda la interfaz
 
-image::08-concepts-EN.drawio.png["Possible topics for crosscutting concepts"]
+==== Feedback
+* Mensajes de confirmación para acciones importantes (registro, respuestas)
+* Indicadores visuales de carga durante peticiones al servidor
+* Validación de formularios en tiempo real
 
+==== Sistema de Pistas
+* Chat integrado que mantiene conversación contextual
+* Historial de chat visible durante cada pregunta
+* El historial se reinicia al cambiar de pregunta
 
-.Further Information
+=== Testing
 
-See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
-****
-endif::arc42help[]
+==== Tests Unitarios
+* *Jest* y *Supertest* para probar servicios backend
+* *mongodb-memory-server* para simular MongoDB sin dependencias externas
+* Objetivo: Máxima cobertura de código
 
-=== _<Concept 1>_
+==== Tests E2E
+* *Puppeteer* para automatizar navegador
+* *Cucumber* con sintaxis Gherkin para escenarios de usuario
+* Uso de data-testid para seleccionar elementos de forma confiable
+* Escenarios cubiertos:
+- Registro e inicio de sesión
+- Juego completo en todas las categorías
+- Visualización de estadísticas
+- Funciones de administrador
 
-_<explanation>_
+=== Escalabilidad
 
+==== Arquitectura de Microservicios
+* Cada servicio puede escalarse de forma independiente
+* Separación de responsabilidades facilita el mantenimiento
+* Posibilidad de desplegar servicios en contenedores Docker
 
+==== Gestión de Carga
+* El Question Service almacena preguntas generadas para reutilizarlas
+* Reduce llamadas repetidas a Wikidata
+* El sistema de hints utiliza un modelo optimizado (gemini-2.0-flash)
 
-=== _<Concept 2>_
+=== Integraciones Externas
 
-_<explanation>_
+==== Wikidata
+* Fuente de datos para generar preguntas de trivia
+* Consultas mediante SPARQL o API REST
+* Datos actualizados de capitales, banderas y monumentos
 
-...
+==== Gemini API
+* Modelo de IA: *gemini-2.0-flash*
+* Genera pistas contextuales sin revelar respuestas directamente
+* Mantiene conversación natural con el usuario
 
-=== _<Concept n>_
+=== Mantenibilidad
 
-_<explanation>_
+==== Organización del Código
+* Estructura clara por servicio con carpetas separadas
+* Cada microservicio tiene su propio package.json y dependencias
+* Código modular con separación de rutas, controladores y modelos
+
+==== Documentación
+* Documentación Arc42 para arquitectura
+* Comentarios en código para lógica compleja
+* README con instrucciones de instalación y ejecución
+
+==== Control de Versiones
+* Uso de Git para control de versiones
+* Repositorio organizado con código fuente y documentación

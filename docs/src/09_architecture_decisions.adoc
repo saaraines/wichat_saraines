@@ -1,37 +1,76 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-design-decisions]]
-== Architecture Decisions
+== Decisiones de Arquitectura
 
+=== Arquitectura de Microservicios
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.
+**Decisión:** Dividir el sistema en cinco servicios backend independientes (Gateway, Auth, User, Question, LLM).
 
-Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).
+**Razón:** Facilita el desarrollo en equipo al permitir trabajar en servicios diferentes simultáneamente. Simplifica el testing al poder probar cada servicio de forma aislada.
 
-Avoid redundancy. 
-Refer to section 4, where you already captured the most important decisions of your architecture.
+**Consecuencias:** Requiere gestionar múltiples procesos durante desarrollo. Mayor complejidad en coordinación entre servicios.
 
-.Motivation
-Stakeholders of your system should be able to comprehend and retrace your decisions.
+=== MongoDB como Base de Datos
 
-.Form
-Various options:
+**Decisión:** Usar MongoDB compartida por todos los servicios en lugar de bases de datos separadas.
 
-* ADR (https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions[Documenting Architecture Decisions]) for every important decision
-* List or table, ordered by importance and consequences or:
-* more detailed in form of separate sections per decision
+**Razón:** Simplicidad en la gestión de datos. Flexibilidad para almacenar diferentes estructuras (usuarios, preguntas, historial). Fácil integración con Node.js mediante Mongoose.
 
-.Further Information
+**Consecuencias:** Todos los servicios dependen de la misma instancia de MongoDB. No hay aislamiento completo de datos entre servicios.
 
-See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 documentation.
-There you will find links and examples about ADR.
+=== React + Material-UI para Frontend
 
-****
-endif::arc42help[]
+**Decisión:** Desarrollar la interfaz con React y Material-UI.
+
+**Razón:** React permite crear interfaces dinámicas e interactivas. Material-UI proporciona componentes visuales profesionales que aceleran el desarrollo. Amplia documentación y comunidad.
+
+**Consecuencias:** Curva de aprendizaje para el equipo. Dependencia de librerías externas.
+
+=== Gateway como Punto Único de Entrada
+
+**Decisión:** Centralizar peticiones de autenticación y usuarios a través del Gateway Service.
+
+**Razón:** Simplifica la configuración de CORS. Permite agregar lógica común (logging, validación) en un solo punto. Oculta la complejidad interna al frontend.
+
+**Consecuencias:** El Gateway puede convertirse en cuello de botella. Punto único de fallo si no se gestiona adecuadamente.
+
+=== Integración con Gemini API
+
+**Decisión:** Crear un servicio LLM separado que use Gemini API para generar pistas.
+
+**Razón:** Cumplir con el requisito del proyecto de integrar un LLM. Separar esta funcionalidad permite escalarla o cambiarla independientemente. Gemini ofrece un modelo gratuito y rápido (gemini-2.0-flash).
+
+**Consecuencias:** Dependencia de API externa. Requiere gestión de claves API y límites de uso.
+
+=== Almacenamiento de Preguntas Generadas
+
+**Decisión:** Guardar las preguntas obtenidas de Wikidata en MongoDB.
+
+**Razón:** Reduce llamadas repetidas a Wikidata. Mejora el rendimiento del juego. Permite reutilizar preguntas entre diferentes partidas.
+
+**Consecuencias:** Necesidad de actualizar periódicamente las preguntas para mantener datos frescos.
+
+=== Testing Exhaustivo
+
+**Decisión:** Implementar tests unitarios con Jest y E2E con Puppeteer/Cucumber para lograr máxima cobertura.
+
+**Razón:** Requisito del proyecto académico. Garantiza calidad del código. Facilita detectar errores antes del despliegue. Permite refactorizar con confianza.
+
+**Consecuencias:** Mayor tiempo de desarrollo inicial. Necesidad de mantener los tests actualizados con los cambios.
+
+=== Interfaz en Español
+
+**Decisión:** Desarrollar toda la interfaz y mensajes en español.
+
+**Razón:** El proyecto está destinado a RTVE (España). Simplifica el desarrollo al no requerir internacionalización. El equipo y usuarios son hispanohablantes.
+
+**Consecuencias:** Limita la audiencia potencial a usuarios que hablen español.
+
+=== Sistema de Hints con Historial de Conversación
+
+**Decisión:** Mantener el historial del chat de pistas en el estado de React, reiniciándolo al cambiar de pregunta.
+
+**Razón:** Proporciona contexto a la IA para generar mejores pistas. Permite al usuario ver la conversación completa. Simplicidad al no requerir persistencia en backend.
+
+**Consecuencias:** El historial se pierde si se recarga la página. Consumo de memoria en el navegador durante partidas largas.

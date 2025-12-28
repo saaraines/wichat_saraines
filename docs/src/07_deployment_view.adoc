@@ -1,100 +1,129 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-deployment-view]]
+== Vista de Despliegue
 
-
-== Deployment View
-
-ifdef::arc42help[]
 [role="arc42help"]
 ****
-.Content
-The deployment view describes:
+.Contenido
+Describe el entorno técnico donde se ejecuta el sistema, incluyendo infraestructura, máquinas y configuración de red.
 
- 1. technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and
-
-2. mapping of (software) building blocks to that infrastructure elements.
-
-Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.
-
-Especially document a deployment view if your software is executed as distributed system with more than one computer, processor, server or container or when you design and construct your own hardware processors and chips.
-
-From a software perspective it is sufficient to capture only those elements of an infrastructure that are needed to show a deployment of your building blocks. Hardware architects can go beyond that and describe an infrastructure to any level of detail they need to capture.
-
-.Motivation
-Software does not run without hardware.
-This underlying infrastructure can and will influence a system and/or some
-cross-cutting concepts. Therefore, there is a need to know the infrastructure.
-
-.Form
-
-Maybe a highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:
-
-* UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.
-* When your (hardware) stakeholders prefer other kinds of diagrams rather than a deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentation.
-
+.Motivación
+El software no funciona sin hardware. Esta vista muestra el entorno físico o virtual necesario para ejecutar la aplicación.
 ****
-endif::arc42help[]
 
-=== Infrastructure Level 1
+=== Infraestructura de Despliegue
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Describe (usually in a combination of diagrams, tables, and text):
+==== Entorno de Desarrollo
 
-* distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them
-* important justifications or motivations for this deployment structure
-* quality and/or performance features of this infrastructure
-* mapping of software artifacts to elements of this infrastructure
+El sistema se ejecuta localmente durante el desarrollo con la siguiente configuración:
 
-For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
-****
-endif::arc42help[]
+[plantuml, "deployment-dev", png]
+----
+@startuml
+node "Máquina de Desarrollo" {
+    node "Puerto 3000" {
+        [WIQ Webapp\n(React)]
+    }
 
-_**<Overview Diagram>**_
+    node "Puerto 8000" {
+        [Gateway Service]
+    }
 
-Motivation::
+    node "Puerto 8001" {
+        [Auth Service]
+    }
 
-_<explanation in text form>_
+    node "Puerto 8002" {
+        [User Service]
+    }
 
-Quality and/or Performance Features::
+    node "Puerto 8003" {
+        [Question Service]
+    }
 
-_<explanation in text form>_
+    node "Puerto 8004" {
+        [LLM Service]
+    }
 
-Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
+    database "Puerto 27017" {
+        [MongoDB]
+    }
+}
 
+cloud "APIs Externas" {
+    [Wikidata API]
+    [Gemini API]
+}
 
-=== Infrastructure Level 2
+[WIQ Webapp\n(React)] --> [Gateway Service] : HTTP
+[Gateway Service] --> [Auth Service] : HTTP
+[Gateway Service] --> [User Service] : HTTP
+[WIQ Webapp\n(React)] --> [Question Service] : HTTP
+[WIQ Webapp\n(React)] --> [LLM Service] : HTTP
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
+[Auth Service] --> [MongoDB] : MongoDB Protocol
+[User Service] --> [MongoDB] : MongoDB Protocol
+[Question Service] --> [MongoDB] : MongoDB Protocol
 
-Please copy the structure from level 1 for each selected element.
-****
-endif::arc42help[]
+[Question Service] ..> [Wikidata API] : HTTPS
+[LLM Service] ..> [Gemini API] : HTTPS
+@enduml
+----
 
-==== _<Infrastructure Element 1>_
+**Descripción:**
+* Todos los servicios se ejecutan localmente en la misma máquina
+* Cada servicio usa un puerto diferente para evitar conflictos
+* MongoDB se ejecuta como proceso local en el puerto por defecto
+* Las APIs externas se acceden vía HTTPS
 
-_<diagram + explanation>_
+==== Entorno de Testing
 
-==== _<Infrastructure Element 2>_
+Durante la ejecución de tests:
 
-_<diagram + explanation>_
+* *Tests Unitarios (Jest)*:
+- Usan mongodb-memory-server para simular MongoDB en memoria
+- No requieren servicios externos activos
+- Se ejecutan de forma aislada para cada microservicio
 
-...
+* *Tests E2E (Puppeteer + Cucumber)*:
+- Requieren todos los servicios ejecutándose localmente
+- MongoDB debe estar activo con datos de prueba
+- Puppeteer controla un navegador Chrome headless
 
-==== _<Infrastructure Element n>_
+==== Configuración de Red
 
-_<diagram + explanation>_
+[options="header",cols="1,1,2"]
+|===
+| Servicio | Puerto | URL Local
+| Frontend | 3000 | http://localhost:3000
+| Gateway | 8000 | http://localhost:8000
+| Auth Service | 8001 | http://localhost:8001
+| User Service | 8002 | http://localhost:8002
+| Question Service | 8003 | http://localhost:8003
+| LLM Service | 8004 | http://localhost:8004
+| MongoDB | 27017 | mongodb://localhost:27017
+|===
+
+==== Variables de Entorno
+
+Cada servicio requiere configuración mediante variables de entorno:
+
+* *MONGODB_URI*: Cadena de conexión a MongoDB
+* *JWT_SECRET*: Clave secreta para firmar tokens JWT
+* *GEMINI_API_KEY*: Clave de API para acceder a Gemini
+* *PORT*: Puerto donde se ejecuta cada servicio
+* *CORS_ORIGIN*: Origen permitido para peticiones CORS
+
+==== Requisitos del Sistema
+
+**Hardware mínimo:**
+* CPU: 2 cores
+* RAM: 4 GB
+* Disco: 2 GB disponibles
+
+**Software necesario:**
+* Node.js 18 o superior
+* MongoDB 6.0 o superior
+* npm o yarn para gestión de dependencias
+* Navegador web moderno (Chrome, Firefox, Edge)
