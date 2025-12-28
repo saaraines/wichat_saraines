@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>wichat_0</title>
+<title>wichat_saraines</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,10 +436,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><span class="image"><img src="./images/arc42-logo.png" alt="arc42"></span> wichat_0</h1>
+<h1><span class="image"><img src="./images/arc42-logo.png" alt="arc42"></span> wichat_saraines</h1>
 <div class="details">
-<span id="revnumber">version 8.2 EN,</span>
-<span id="revdate">January 2023</span>
+<span id="revnumber">version 8.3 ES,</span>
+<span id="revdate">Diciembre 2025</span>
 <br><span id="revremark">(based upon AsciiDoc version)</span>
 </div>
 <div id="toc" class="toc">
@@ -464,44 +464,74 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_contexto_técnico">3.2. Contexto técnico</a></li>
 </ul>
 </li>
-<li><a href="#section-solution-strategy">4. Solution Strategy</a></li>
-<li><a href="#section-building-block-view">5. Building Block View</a>
+<li><a href="#section-solution-strategy">4. Estrategia de Solución</a>
 <ul class="sectlevel2">
-<li><a href="#_whitebox_overall_system">5.1. Whitebox Overall System</a></li>
-<li><a href="#_level_2">5.2. Level 2</a></li>
-<li><a href="#_level_3">5.3. Level 3</a></li>
+<li><a href="#_decisiones_tecnológicas">4.1. Decisiones Tecnológicas</a></li>
+<li><a href="#_decisiones_de_alto_nivel">4.2. Decisiones de Alto Nivel</a></li>
+<li><a href="#_estructura_del_sistema">4.3. Estructura del Sistema</a></li>
+<li><a href="#_calidad">4.4. Calidad</a></li>
 </ul>
 </li>
-<li><a href="#section-runtime-view">6. Runtime View</a>
+<li><a href="#section-building-block-view">5. Vista de Bloques de Construcción</a>
 <ul class="sectlevel2">
-<li><a href="#_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</a></li>
-<li><a href="#_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</a></li>
-<li><a href="#">6.3. &#8230;&#8203;</a></li>
-<li><a href="#_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</a></li>
+<li><a href="#_sistema_completo_nivel_1">5.1. Sistema Completo (Nivel 1)</a></li>
+<li><a href="#_nivel_2">5.2. Nivel 2</a></li>
+<li><a href="#_nivel_3">5.3. Nivel 3</a></li>
 </ul>
 </li>
-<li><a href="#section-deployment-view">7. Deployment View</a>
+<li><a href="#section-runtime-view">6. Vista de Ejecución</a>
 <ul class="sectlevel2">
-<li><a href="#_infrastructure_level_1">7.1. Infrastructure Level 1</a></li>
-<li><a href="#_infrastructure_level_2">7.2. Infrastructure Level 2</a></li>
+<li><a href="#_registro_de_usuario">6.1. Registro de Usuario</a></li>
+<li><a href="#_inicio_de_sesión">6.2. Inicio de Sesión</a></li>
+<li><a href="#_jugar_una_partida">6.3. Jugar una Partida</a></li>
+<li><a href="#_solicitar_pista_con_ia">6.4. Solicitar Pista con IA</a></li>
+<li><a href="#_ver_estadísticas">6.5. Ver Estadísticas</a></li>
+<li><a href="#_gestión_de_usuarios_admin">6.6. Gestión de Usuarios (Admin)</a></li>
 </ul>
 </li>
-<li><a href="#section-concepts">8. Cross-cutting Concepts</a>
+<li><a href="#section-deployment-view">7. Vista de Despliegue</a>
 <ul class="sectlevel2">
-<li><a href="#_concept_1">8.1. <em>&lt;Concept 1&gt;</em></a></li>
-<li><a href="#_concept_2">8.2. <em>&lt;Concept 2&gt;</em></a></li>
-<li><a href="#_concept_n">8.3. <em>&lt;Concept n&gt;</em></a></li>
+<li><a href="#_infraestructura_de_despliegue">7.1. Infraestructura de Despliegue</a></li>
 </ul>
 </li>
-<li><a href="#section-design-decisions">9. Architecture Decisions</a></li>
-<li><a href="#section-quality-scenarios">10. Quality Requirements</a>
+<li><a href="#section-concepts">8. Conceptos Transversales</a>
 <ul class="sectlevel2">
-<li><a href="#_quality_tree">10.1. Quality Tree</a></li>
-<li><a href="#_quality_scenarios">10.2. Quality Scenarios</a></li>
+<li><a href="#_seguridad">8.1. Seguridad</a></li>
+<li><a href="#_comunicación">8.2. Comunicación</a></li>
+<li><a href="#_gestión_de_datos">8.3. Gestión de Datos</a></li>
+<li><a href="#_experiencia_de_usuario">8.4. Experiencia de Usuario</a></li>
+<li><a href="#_testing">8.5. Testing</a></li>
+<li><a href="#_escalabilidad">8.6. Escalabilidad</a></li>
+<li><a href="#_integraciones_externas">8.7. Integraciones Externas</a></li>
+<li><a href="#_mantenibilidad">8.8. Mantenibilidad</a></li>
 </ul>
 </li>
-<li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
-<li><a href="#section-glossary">12. Glossary</a></li>
+<li><a href="#section-design-decisions">9. Decisiones de Arquitectura</a>
+<ul class="sectlevel2">
+<li><a href="#_arquitectura_de_microservicios_2">9.1. Arquitectura de Microservicios</a></li>
+<li><a href="#_mongodb_como_base_de_datos">9.2. MongoDB como Base de Datos</a></li>
+<li><a href="#_react_material_ui_para_frontend">9.3. React + Material-UI para Frontend</a></li>
+<li><a href="#_gateway_como_punto_único_de_entrada">9.4. Gateway como Punto Único de Entrada</a></li>
+<li><a href="#_integración_con_gemini_api">9.5. Integración con Gemini API</a></li>
+<li><a href="#_almacenamiento_de_preguntas_generadas">9.6. Almacenamiento de Preguntas Generadas</a></li>
+<li><a href="#_testing_exhaustivo">9.7. Testing Exhaustivo</a></li>
+<li><a href="#_interfaz_en_español">9.8. Interfaz en Español</a></li>
+<li><a href="#_sistema_de_hints_con_historial_de_conversación">9.9. Sistema de Hints con Historial de Conversación</a></li>
+</ul>
+</li>
+<li><a href="#section-quality-scenarios">10. Requisitos de Calidad</a>
+<ul class="sectlevel2">
+<li><a href="#_árbol_de_calidad">10.1. Árbol de Calidad</a></li>
+<li><a href="#_escenarios_de_calidad">10.2. Escenarios de Calidad</a></li>
+</ul>
+</li>
+<li><a href="#section-technical-risks">11. Riesgos y Deudas Técnicas</a>
+<ul class="sectlevel2">
+<li><a href="#_riesgos_técnicos">11.1. Riesgos Técnicos</a></li>
+<li><a href="#_deudas_técnicas">11.2. Deudas Técnicas</a></li>
+</ul>
+</li>
+<li><a href="#section-glossary">12. Glosario</a></li>
 </ul>
 </div>
 </div>
@@ -524,7 +554,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>arc42, the template for documentation of software and system architecture.</p>
 </div>
 <div class="paragraph">
-<p>Template Version 8.2 EN. (based upon AsciiDoc version), January 2023</p>
+<p>Template Version 8.3 ES. (based upon AsciiDoc version), Diciembre 2025</p>
 </div>
 <div class="paragraph">
 <p>Created, maintained and &#169; by Dr. Peter Hruschka, Dr. Gernot Starke and contributors.
@@ -731,382 +761,34 @@ En el caso de que alguien tuviera que editar este código todo estará bien estr
 </div>
 <div class="sect2">
 <h3 id="_contexto_técnico">3.2. Contexto técnico</h3>
-<div class="paragraph">
-<p>WIChat es una aplicación web compuesta por diversos módulos, con una arquitectura basada en un enfoque de microservicios, con integración de APIs para la generación de preguntas y LLM.</p>
-</div>
-<div class="paragraph">
-<p><strong>Componentes principales:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>API RESTful para gestionar autenticación, preguntas y estadísticas de los usuarios.</p>
-</li>
-<li>
-<p>Integración con una base de datos para almacenamiento de la información.</p>
-</li>
-<li>
-<p>Generación de preguntas desde Wikidata</p>
-</li>
-<li>
-<p>Sistema de pistas implementando un LLM</p>
-</li>
-<li>
-<p>Gestión de usuarios</p>
-</li>
-<li>
-<p>Despliegue y monitoreo con contenedores de Docker y herramientas de integración contínua de Github</p>
-</li>
-</ul>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="section-solution-strategy">4. Solution Strategy</h2>
-<div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>technology decisions</p>
-</li>
-<li>
-<p>decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern</p>
-</li>
-<li>
-<p>decisions on how to achieve key quality goals</p>
-</li>
-<li>
-<p>relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Keep the explanations of such key decisions short.</p>
-</div>
-<div class="paragraph">
-<p>Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-4/">Solution Strategy</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="section-building-block-view">5. Building Block View</h2>
-<div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, &#8230;&#8203;) as well as their dependencies (relationships, associations, &#8230;&#8203;)</p>
-</div>
-<div class="paragraph">
-<p>This view is mandatory for every architecture documentation.
-In analogy to a house this is the <em>floor plan</em>.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Maintain an overview of your source code by making its structure understandable through
-abstraction.</p>
-</div>
-<div class="paragraph">
-<p>This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The building block view is a hierarchical collection of black boxes and white boxes
-(see figure below) and their descriptions.</p>
-</div>
+<div class="sect3">
+<h4 id="_3_2_1_alcance_del_sistema">3.2.1. 3.2.1. Alcance del Sistema</h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/05_building_blocks-EN.png" alt="Hierarchy of building blocks">
+<img src="./images/diagrama_wichat.png" alt="Diagrama de arquitectura del sistema">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Level 1</strong> is the white box description of the overall system together with black
-box descriptions of all contained building blocks.</p>
-</div>
-<div class="paragraph">
-<p><strong>Level 2</strong> zooms into some building blocks of level 1.
-Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.</p>
-</div>
-<div class="paragraph">
-<p><strong>Level 3</strong> zooms into selected building blocks of level 2, and so on.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-5/">Building Block View</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you describe the decomposition of the overall system using the following white box template. It contains</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>an overview diagram</p>
+<p><strong>WIQ Webapp</strong>: Módulo que soporta la interacción del usuario a través de la interfaz de usuario.</p>
 </li>
 <li>
-<p>a motivation for the decomposition</p>
+<p><strong>Question Generation Service</strong>: Servicio que se utiliza internamente para gestionar la recuperación de información desde Wikidata y el almacenamiento de preguntas en la base de datos.</p>
 </li>
 <li>
-<p>black box descriptions of the contained building blocks. For these we offer you alternatives:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>use <em>one</em> table for a short and pragmatic overview of all contained building blocks and their interfaces</p>
+<p><strong>Gateway Service</strong>: Servicio Express que está expuesto al público y sirve como proxy para la gestión de usuarios, permitiendo el registro e inicio de sesión.</p>
 </li>
 <li>
-<p>use a list of black box descriptions of the building blocks according to the black box template (see below).
-Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).</p>
+<p><strong>User Service</strong>: Servicio Express que maneja la inserción de nuevos usuarios en el sistema.</p>
+</li>
+<li>
+<p><strong>Auth Service</strong>: Servicio Express que maneja la autenticación de usuarios.</p>
+</li>
+<li>
+<p><strong>LLM Service</strong>: Servicio que proporciona pistas generadas por IA utilizando la API de Gemini para ayudar a los jugadores durante las partidas.</p>
 </li>
 </ul>
-</div>
-</li>
-<li>
-<p>(optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box.
-Since there are so many ways to specify interfaces why do not provide a specific template for them.
- In the worst case you have to specify and describe syntax, semantics, protocols, error handling,
- restrictions, versions, qualities, necessary compatibilities and many things more.
-In the best case you will get away with examples or simple signatures.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em><strong>&lt;Overview Diagram&gt;</strong></em></p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Motivation</dt>
-<dd>
-<p><em>&lt;text explanation&gt;</em></p>
-</dd>
-<dt class="hdlist1">Contained Building Blocks</dt>
-<dd>
-<p><em>&lt;Description of contained building block (black boxes)&gt;</em></p>
-</dd>
-<dt class="hdlist1">Important Interfaces</dt>
-<dd>
-<p><em>&lt;Description of important interfaces&gt;</em></p>
-</dd>
-</dl>
-</div>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Insert your explanations of black boxes from level 1:</p>
-</div>
-<div class="paragraph">
-<p>If you use tabular form you will only describe your black boxes with name and
-responsibility according to the following schema:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><strong>Name</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Responsibility</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;black box 1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"> <em>&lt;Text&gt;</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;black box 2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"> <em>&lt;Text&gt;</em></p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
-Its headline is the name of the black box.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_black_box_1">5.1.1. &lt;Name black box 1&gt;</h4>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you describe &lt;black box 1&gt;
-according the the following black box template:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Purpose/Responsibility</p>
-</li>
-<li>
-<p>Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.</p>
-</li>
-<li>
-<p>(Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, &#8230;&#8203;.</p>
-</li>
-<li>
-<p>(Optional) directory/file location</p>
-</li>
-<li>
-<p>(Optional) Fulfilled requirements (if you need traceability to requirements).</p>
-</li>
-<li>
-<p>(Optional) Open issues/problems/risks</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em>&lt;Purpose/Responsibility&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;Interface(s)&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Quality/Performance Characteristics&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Directory/File Location&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Fulfilled Requirements&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(optional) Open Issues/Problems/Risks&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_black_box_2">5.1.2. &lt;Name black box 2&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;black box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_black_box_n">5.1.3. &lt;Name black box n&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;black box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_interface_1">5.1.4. &lt;Name interface 1&gt;</h4>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_interface_m">5.1.5. &lt;Name interface m&gt;</h4>
-
-</div>
-</div>
-<div class="sect2">
-<h3 id="_level_2">5.2. Level 2</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.</p>
-</div>
-<div class="paragraph">
-<p>You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_1">5.2.1. White Box <em>&lt;building block 1&gt;</em></h4>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>&#8230;&#8203;describes the internal structure of <em>building block 1</em>.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_2">5.2.2. White Box <em>&lt;building block 2&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_m">5.2.3. White Box <em>&lt;building block m&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_level_3">5.3. Level 3</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.</p>
-</div>
-<div class="paragraph">
-<p>When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_x_1">5.3.1. White Box &lt;_building block x.1_&gt;</h4>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Specifies the internal structure of <em>building block x.1</em>.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_x_2">5.3.2. White Box &lt;_building block x.2_&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_y_1">5.3.3. White Box &lt;_building block y.1_&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1114,592 +796,188 @@ part of arc42 for additional levels.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-runtime-view">6. Runtime View</h2>
+<h2 id="section-solution-strategy">4. Estrategia de Solución</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:</p>
-</div>
+<div class="sect2">
+<h3 id="_decisiones_tecnológicas">4.1. Decisiones Tecnológicas</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>important use cases or features: how do building blocks execute them?</p>
+<p><strong>Arquitectura de Microservicios</strong>: Se optó por dividir el sistema en servicios independientes (Gateway, Auth, User, Question, LLM) para facilitar el desarrollo en equipo y el mantenimiento.</p>
 </li>
 <li>
-<p>interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?</p>
+<p><strong>MongoDB</strong>: Base de datos NoSQL elegida por su flexibilidad para almacenar diferentes tipos de datos (usuarios, preguntas, historial) y facilidad de integración con Node.js.</p>
 </li>
 <li>
-<p>operation and administration: launch, start-up, stop</p>
+<p><strong>React + Material-UI</strong>: Framework frontend moderno que permite crear interfaces interactivas y responsivas de forma rápida, con componentes visuales predefinidos.</p>
 </li>
 <li>
-<p>error and exception scenarios</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their <strong>architectural relevance</strong>. It is <strong>not</strong> important to describe a large number of scenarios. You should rather document a representative selection.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>There are many notations for describing scenarios, e.g.</p>
-</div>
+<p><strong>APIs Externas</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>numbered list of steps (in natural language)</p>
+<p>Wikidata para obtener datos de trivia actualizados</p>
 </li>
 <li>
-<p>activity diagrams or flow charts</p>
-</li>
-<li>
-<p>sequence diagrams</p>
-</li>
-<li>
-<p>BPMN or EPCs (event process chains)</p>
-</li>
-<li>
-<p>state machines</p>
-</li>
-<li>
-<p>&#8230;&#8203;</p>
+<p>Gemini API para generar pistas inteligentes mediante IA</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-6/">Runtime View</a> in the arc42 documentation.</p>
-</div>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</h3>
+<h3 id="_decisiones_de_alto_nivel">4.2. Decisiones de Alto Nivel</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><em>&lt;insert runtime diagram or textual description of the scenario&gt;</em></p>
+<p><strong>Gateway como punto único de entrada</strong>: Centraliza las peticiones del frontend y gestiona el enrutamiento a los servicios correspondientes, simplificando la comunicación.</p>
 </li>
 <li>
-<p><em>&lt;insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.&gt;</em></p>
+<p><strong>Separación de servicios de autenticación y usuarios</strong>: Permite gestionar de forma independiente la validación de credenciales (Auth) y la información de usuarios (User).</p>
+</li>
+<li>
+<p><strong>Sistema de pistas con IA</strong>: Se integró un servicio LLM separado para no sobrecargar otros servicios y poder escalar la funcionalidad de hints de forma independiente.</p>
+</li>
+<li>
+<p><strong>Testing exhaustivo</strong>: Se priorizó alcanzar máxima cobertura de tests (unitarios con Jest y E2E con Puppeteer/Cucumber) para garantizar la calidad del código.</p>
 </li>
 </ul>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_estructura_del_sistema">4.3. Estructura del Sistema</h3>
 <div class="paragraph">
-<p>It is possible to use a sequence diagram:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="332" height="335">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</h3>
-
-</div>
-<div class="sect2">
-<h3 id="">6.3. &#8230;&#8203;</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</h3>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="section-deployment-view">7. Deployment View</h2>
-<div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>The deployment view describes:</p>
+<p>La aplicación sigue un patrón cliente-servidor con arquitectura de microservicios:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and</p>
+<p>El <strong>frontend</strong> (React) se comunica únicamente con los servicios backend a través de HTTP</p>
 </li>
 <li>
-<p>mapping of (software) building blocks to that infrastructure elements.</p>
+<p>El <strong>Gateway</strong> actúa como orquestador entre el frontend y los servicios internos</p>
+</li>
+<li>
+<p>Los <strong>servicios</strong> son independientes pero comparten la misma base de datos MongoDB</p>
+</li>
+<li>
+<p>Las <strong>APIs externas</strong> se consultan bajo demanda para obtener datos frescos</p>
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p>Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.</p>
 </div>
-<div class="paragraph">
-<p>Especially document a deployment view if your software is executed as distributed system with more than one computer, processor, server or container or when you design and construct your own hardware processors and chips.</p>
-</div>
-<div class="paragraph">
-<p>From a software perspective it is sufficient to capture only those elements of an infrastructure that are needed to show a deployment of your building blocks. Hardware architects can go beyond that and describe an infrastructure to any level of detail they need to capture.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Software does not run without hardware.
-This underlying infrastructure can and will influence a system and/or some
-cross-cutting concepts. Therefore, there is a need to know the infrastructure.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Maybe a highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:</p>
-</div>
+<div class="sect2">
+<h3 id="_calidad">4.4. Calidad</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.</p>
+<p><strong>Mantenibilidad</strong>: La separación en microservicios permite modificar componentes sin afectar al resto del sistema</p>
 </li>
 <li>
-<p>When your (hardware) stakeholders prefer other kinds of diagrams rather than a deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.</p>
+<p><strong>Testabilidad</strong>: Arquitectura diseñada para facilitar pruebas unitarias y de integración</p>
+</li>
+<li>
+<p><strong>Escalabilidad</strong>: Cada servicio puede escalarse de forma independiente según la demanda</p>
+</li>
+<li>
+<p><strong>Usabilidad</strong>: Interfaz intuitiva en español con Material-UI, sistema de pistas para ayudar a los jugadores</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-7/">Deployment View</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Describe (usually in a combination of diagrams, tables, and text):</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them</p>
-</li>
-<li>
-<p>important justifications or motivations for this deployment structure</p>
-</li>
-<li>
-<p>quality and/or performance features of this infrastructure</p>
-</li>
-<li>
-<p>mapping of software artifacts to elements of this infrastructure</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em><strong>&lt;Overview Diagram&gt;</strong></em></p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Motivation</dt>
-<dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
-</dd>
-<dt class="hdlist1">Quality and/or Performance Features</dt>
-<dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
-</dd>
-<dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
-<dd>
-<p><em>&lt;description of the mapping&gt;</em></p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_infrastructure_level_2">7.2. Infrastructure Level 2</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you can include the internal structure of (some) infrastructure elements from level 1.</p>
-</div>
-<div class="paragraph">
-<p>Please copy the structure from level 1 for each selected element.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_1">7.2.1. <em>&lt;Infrastructure Element 1&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_2">7.2.2. <em>&lt;Infrastructure Element 2&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_n">7.2.3. <em>&lt;Infrastructure Element n&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="section-concepts">8. Cross-cutting Concepts</h2>
+<h2 id="section-building-block-view">5. Vista de Bloques de Construcción</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_sistema_completo_nivel_1">5.1. Sistema Completo (Nivel 1)</h3>
+<div class="paragraph">
+<p>El sistema WIChat está compuesto por los siguientes bloques principales:</p>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
-<div class="title">Content</div>
-<p>This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>models, especially domain models</p>
-</li>
-<li>
-<p>architecture or design patterns</p>
-</li>
-<li>
-<p>rules for using specific technology</p>
-</li>
-<li>
-<p>principal, often technical decisions of an overarching (= cross-cutting) nature</p>
-</li>
-<li>
-<p>implementation rules</p>
-</li>
-</ul>
+<div class="title">Contenido</div>
+<p>Visión general del sistema completo mostrando los bloques principales y sus relaciones.</p>
 </div>
 <div class="paragraph">
-<div class="title">Motivation</div>
-<p>Concepts form the basis for <em>conceptual integrity</em> (consistency, homogeneity) of the architecture.
-Thus, they are an important contribution to achieve inner qualities of your system.</p>
+<div class="title">Motivación</div>
+<p>Proporciona una visión de alto nivel de la estructura del sistema para facilitar la comprensión de los componentes principales.</p>
 </div>
-<div class="paragraph">
-<p>Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety.</p>
 </div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The form can be varied:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>concept papers with any kind of structure</p>
-</li>
-<li>
-<p>cross-cutting model excerpts or scenarios using notations of the architecture views</p>
-</li>
-<li>
-<p>sample implementations, especially for technical concepts</p>
-</li>
-<li>
-<p>reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Structure</div>
-<p>A potential (but not mandatory) structure for this section could be:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Domain concepts</p>
-</li>
-<li>
-<p>User Experience concepts (UX)</p>
-</li>
-<li>
-<p>Safety and security concepts</p>
-</li>
-<li>
-<p>Architecture and design patterns</p>
-</li>
-<li>
-<p>"Under-the-hood"</p>
-</li>
-<li>
-<p>development concepts</p>
-</li>
-<li>
-<p>operational concepts</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Note: it might be difficult to assign individual concepts to one specific topic
-on this list.</p>
-</div>
+<div class="sect3">
+<h4 id="_diagrama_de_nivel_1">5.1.1. Diagrama de Nivel 1</h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/08-concepts-EN.drawio.png" alt="Possible topics for crosscutting concepts">
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-8/">Concepts</a> in the arc42 documentation.</p>
+<img src="./images/diagrama_wichat.png" alt="Diagrama de arquitectura del sistema">
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_concept_1">8.1. <em>&lt;Concept 1&gt;</em></h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_concept_2">8.2. <em>&lt;Concept 2&gt;</em></h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_concept_n">8.3. <em>&lt;Concept n&gt;</em></h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="section-design-decisions">9. Architecture Decisions</h2>
-<div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.</p>
-</div>
-<div class="paragraph">
-<p>Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).</p>
-</div>
-<div class="paragraph">
-<p>Avoid redundancy.
-Refer to section 4, where you already captured the most important decisions of your architecture.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Stakeholders of your system should be able to comprehend and retrace your decisions.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Various options:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>ADR (<a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Documenting Architecture Decisions</a>) for every important decision</p>
-</li>
-<li>
-<p>List or table, ordered by importance and consequences or:</p>
-</li>
-<li>
-<p>more detailed in form of separate sections per decision</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-9/">Architecture Decisions</a> in the arc42 documentation.
-There you will find links and examples about ADR.</p>
-</div>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="section-quality-scenarios">10. Quality Requirements</h2>
-<div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>This section contains all quality requirements as quality tree with scenarios. The most important ones have already been described in section 1.2. (quality goals)</p>
-</div>
-<div class="paragraph">
-<p>Here you can also capture quality requirements with lesser priority,
-which will not create high risks when they are not fully achieved.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Since quality requirements will have a lot of influence on architectural
-decisions you should know for every stakeholder what is really important to them,
-concrete and measurable.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-10/">Quality Requirements</a> in the arc42 documentation.</p>
-</div>
+<div class="sect3">
+<h4 id="_bloques_del_sistema">5.1.2. Bloques del Sistema</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Bloque</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WIQ Webapp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aplicación web desarrollada en React con Material-UI. Interfaz de usuario que permite jugar, ver estadísticas y obtener pistas mediante chat con IA.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Gateway Service</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Punto de entrada del sistema. Orquesta las peticiones entre el frontend y los servicios backend de autenticación y usuarios.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Auth Service</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gestiona la autenticación de usuarios mediante validación de credenciales y generación de tokens JWT.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>User Service</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maneja el registro de nuevos usuarios y almacenamiento de información personal y estadísticas de juego.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Question Generation Service</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Obtiene datos de Wikidata, genera preguntas de trivia para las tres categorías (Capitales, Banderas, Monumentos) y las almacena en MongoDB.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LLM Service</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Proporciona pistas generadas por IA usando Gemini API para ayudar a los jugadores durante las partidas.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MongoDB</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base de datos que almacena usuarios, preguntas generadas e historial de partidas.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Wikidata</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API externa de donde se obtienen los datos para generar las preguntas de trivia.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Gemini API</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API de Google que proporciona el modelo de IA para generar pistas contextuales.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quality_tree">10.1. Quality Tree</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
+<h3 id="_nivel_2">5.2. Nivel 2</h3>
+<div class="sect3">
+<h4 id="_frontend_wiq_webapp">5.2.1. Frontend (WIQ Webapp)</h4>
 <div class="paragraph">
-<div class="title">Content</div>
-<p>The quality tree (as defined in ATAM – Architecture Tradeoff Analysis Method) with quality/evaluation scenarios as leafs.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>The tree structure with priorities provides an overview for a sometimes large number of quality requirements.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The quality tree is a high-level overview of the quality goals and requirements:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>tree-like refinement of the term "quality". Use "quality" or "usefulness" as a root</p>
-</li>
-<li>
-<p>a mind map with quality categories as main branches</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In any case the tree should include links to the scenarios of the following section.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.</p>
-</div>
-<div class="paragraph">
-<p>These scenarios describe what should happen when a stimulus arrives at the system.</p>
-</div>
-<div class="paragraph">
-<p>For architects, two kinds of scenarios are important:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Usage scenarios (also called application scenarios or use case scenarios) describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. Example: The system reacts to a user’s request within one second.</p>
-</li>
-<li>
-<p>Change scenarios describe a modification of the system or of its immediate environment. Example: Additional functionality is implemented or requirements for a quality attribute change.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Scenarios make quality requirements concrete and allow to
-more easily measure or decide whether they are fulfilled.</p>
-</div>
-<div class="paragraph">
-<p>Especially when you want to assess your architecture using methods like
-ATAM you need to describe your quality goals (from section 1.2)
-more precisely down to a level of scenarios that can be discussed and evaluated.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Tabular or free form text.</p>
-</div>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="section-technical-risks">11. Risks and Technical Debts</h2>
-<div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>A list of identified technical risks or technical debts, ordered by priority</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.)</p>
-</div>
-<div class="paragraph">
-<p>This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-11/">Risks and Technical Debt</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="section-glossary">12. Glossary</h2>
-<div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>The most important domain and technical terms that your stakeholders use when discussing the system.</p>
-</div>
-<div class="paragraph">
-<p>You can also see the glossary as source for translations if you work in multi-language teams.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>You should clearly define your terms, so that all stakeholders</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>have an identical understanding of these terms</p>
-</li>
-<li>
-<p>do not use synonyms and homonyms</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>A table with columns &lt;Term&gt; and &lt;Definition&gt;.</p>
-</div>
-<div class="paragraph">
-<p>Potentially more columns in case you need translations.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-12/">Glossary</a> in the arc42 documentation.</p>
-</div>
-</div>
+<p>El frontend está estructurado en componentes React que gestionan diferentes funcionalidades:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1708,18 +986,1368 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Term</th>
-<th class="tableblock halign-left valign-top">Definition</th>
+<th class="tableblock halign-left valign-top">Componente</th>
+<th class="tableblock halign-left valign-top">Responsabilidad</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-1&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Componentes de Autenticación</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login y registro de usuarios</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Componentes de Juego</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Visualización de preguntas, opciones y validación de respuestas para cada categoría</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Sistema de Pistas</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chat que permite solicitar hints al LLM Service durante el juego</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Panel de Estadísticas</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Visualización de gráficos y datos del rendimiento del usuario (usando recharts)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Panel de Administración</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gestión de usuarios y visualización de estadísticas globales (solo admins)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_backend_services">5.2.2. Backend Services</h4>
+<div class="sect4">
+<h5 id="_gateway_service">Gateway Service</h5>
+<div class="paragraph">
+<p>Responsabilidades:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Recibir todas las peticiones del frontend</p>
+</li>
+<li>
+<p>Enrutar solicitudes de autenticación al Auth Service</p>
+</li>
+<li>
+<p>Enrutar solicitudes de gestión de usuarios al User Service</p>
+</li>
+<li>
+<p>Gestionar CORS y configuración de seguridad</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_auth_service">Auth Service</h5>
+<div class="paragraph">
+<p>Responsabilidades:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Validar credenciales de usuario contra MongoDB</p>
+</li>
+<li>
+<p>Generar tokens JWT para sesiones autenticadas</p>
+</li>
+<li>
+<p>Verificar tokens en peticiones protegidas</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_user_service">User Service</h5>
+<div class="paragraph">
+<p>Responsabilidades:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Registrar nuevos usuarios en MongoDB</p>
+</li>
+<li>
+<p>Almacenar y actualizar historial de partidas</p>
+</li>
+<li>
+<p>Proporcionar datos para estadísticas de usuario</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_question_generation_service">Question Generation Service</h5>
+<div class="paragraph">
+<p>Responsabilidades:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Consultar Wikidata para obtener datos actualizados</p>
+</li>
+<li>
+<p>Generar preguntas con opciones múltiples</p>
+</li>
+<li>
+<p>Almacenar preguntas en MongoDB</p>
+</li>
+<li>
+<p>Servir preguntas al frontend según categoría solicitada</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_llm_service">LLM Service</h5>
+<div class="paragraph">
+<p>Responsabilidades:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Recibir contexto de la pregunta actual</p>
+</li>
+<li>
+<p>Construir prompts adecuados para Gemini API</p>
+</li>
+<li>
+<p>Gestionar la conversación y proporcionar pistas sin revelar la respuesta directamente</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nivel_3">5.3. Nivel 3</h3>
+<div class="paragraph">
+<p>Para esta aplicación, el nivel 2 proporciona suficiente detalle sobre la estructura interna de cada servicio. Cada microservicio sigue una arquitectura estándar de Express con:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rutas (routes): Definen los endpoints disponibles</p>
+</li>
+<li>
+<p>Controladores (controllers): Lógica de negocio de cada endpoint</p>
+</li>
+<li>
+<p>Modelos (models): Esquemas de MongoDB</p>
+</li>
+<li>
+<p>Servicios auxiliares: Funciones de utilidad y llamadas a APIs externas</p>
+</li>
+</ul>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-runtime-view">6. Vista de Ejecución</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_registro_de_usuario">6.1. Registro de Usuario</h3>
+<div class="paragraph">
+<p>Escenario que describe cómo un nuevo usuario se registra en el sistema.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/registro-usuario.png" alt="registro usuario" width="640" height="442">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inicio_de_sesión">6.2. Inicio de Sesión</h3>
+<div class="paragraph">
+<p>Escenario que describe el proceso de autenticación de un usuario.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/login-usuario.png" alt="login usuario" width="649" height="486">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jugar_una_partida">6.3. Jugar una Partida</h3>
+<div class="paragraph">
+<p>Escenario principal del juego donde el usuario responde preguntas.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/jugar-partida.png" alt="jugar partida" width="739" height="762">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_solicitar_pista_con_ia">6.4. Solicitar Pista con IA</h3>
+<div class="paragraph">
+<p>Escenario donde el usuario pide ayuda mediante el sistema de hints.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/solicitar-pista.png" alt="solicitar pista" width="657" height="494">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ver_estadísticas">6.5. Ver Estadísticas</h3>
+<div class="paragraph">
+<p>Escenario donde un usuario consulta sus estadísticas de juego.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/ver-estadisticas.png" alt="ver estadisticas" width="649" height="468">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gestión_de_usuarios_admin">6.6. Gestión de Usuarios (Admin)</h3>
+<div class="paragraph">
+<p>Escenario donde un administrador gestiona usuarios del sistema.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/admin-gestion.png" alt="admin gestion" width="664" height="778">
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-deployment-view">7. Vista de Despliegue</h2>
+<div class="sectionbody">
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contenido</div>
+<p>Describe el entorno técnico donde se ejecuta el sistema, incluyendo infraestructura, máquinas y configuración de red.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivación</div>
+<p>El software no funciona sin hardware. Esta vista muestra el entorno físico o virtual necesario para ejecutar la aplicación.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_infraestructura_de_despliegue">7.1. Infraestructura de Despliegue</h3>
+<div class="sect3">
+<h4 id="_entorno_de_desarrollo">7.1.1. Entorno de Desarrollo</h4>
+<div class="paragraph">
+<p>El sistema se ejecuta localmente durante el desarrollo con la siguiente configuración:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/deployment-dev.png" alt="deployment dev" width="805" height="558">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Descripción:</strong>
+* Todos los servicios se ejecutan localmente en la misma máquina
+* Cada servicio usa un puerto diferente para evitar conflictos
+* MongoDB se ejecuta como proceso local en el puerto por defecto
+* Las APIs externas se acceden vía HTTPS</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_entorno_de_testing">7.1.2. Entorno de Testing</h4>
+<div class="paragraph">
+<p>Durante la ejecución de tests:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Tests Unitarios (Jest)</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Usan mongodb-memory-server para simular MongoDB en memoria</p>
+</li>
+<li>
+<p>No requieren servicios externos activos</p>
+</li>
+<li>
+<p>Se ejecutan de forma aislada para cada microservicio</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Tests E2E (Puppeteer + Cucumber)</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Requieren todos los servicios ejecutándose localmente</p>
+</li>
+<li>
+<p>MongoDB debe estar activo con datos de prueba</p>
+</li>
+<li>
+<p>Puppeteer controla un navegador Chrome headless</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuración_de_red">7.1.3. Configuración de Red</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Servicio</th>
+<th class="tableblock halign-left valign-top">Puerto</th>
+<th class="tableblock halign-left valign-top">URL Local</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frontend</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:3000" class="bare">http://localhost:3000</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gateway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8000" class="bare">http://localhost:8000</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Auth Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8001</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8001" class="bare">http://localhost:8001</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8002" class="bare">http://localhost:8002</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8003" class="bare">http://localhost:8003</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LLM Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8004</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8004" class="bare">http://localhost:8004</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mongodb://localhost:27017</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_variables_de_entorno">7.1.4. Variables de Entorno</h4>
+<div class="paragraph">
+<p>Cada servicio requiere configuración mediante variables de entorno:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>MONGODB_URI</strong>: Cadena de conexión a MongoDB</p>
+</li>
+<li>
+<p><strong>JWT_SECRET</strong>: Clave secreta para firmar tokens JWT</p>
+</li>
+<li>
+<p><strong>GEMINI_API_KEY</strong>: Clave de API para acceder a Gemini</p>
+</li>
+<li>
+<p><strong>PORT</strong>: Puerto donde se ejecuta cada servicio</p>
+</li>
+<li>
+<p><strong>CORS_ORIGIN</strong>: Origen permitido para peticiones CORS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requisitos_del_sistema">7.1.5. Requisitos del Sistema</h4>
+<div class="paragraph">
+<p><strong>Hardware mínimo:</strong>
+* CPU: 2 cores
+* RAM: 4 GB
+* Disco: 2 GB disponibles</p>
+</div>
+<div class="paragraph">
+<p><strong>Software necesario:</strong>
+* Node.js 18 o superior
+* MongoDB 6.0 o superior
+* npm o yarn para gestión de dependencias
+* Navegador web moderno (Chrome, Firefox, Edge)</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-concepts">8. Conceptos Transversales</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_seguridad">8.1. Seguridad</h3>
+<div class="sect3">
+<h4 id="_autenticación">8.1.1. Autenticación</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>El sistema utiliza <strong>JWT (JSON Web Tokens)</strong> para gestionar sesiones de usuario</p>
+</li>
+<li>
+<p>Las contraseñas se almacenan <strong>hasheadas</strong> en MongoDB (nunca en texto plano)</p>
+</li>
+<li>
+<p>El Auth Service valida credenciales y genera tokens que expiran tras un tiempo determinado</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_autorización">8.1.2. Autorización</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Existen dos roles: <strong>usuario regular</strong> y <strong>administrador</strong></p>
+</li>
+<li>
+<p>Los administradores tienen acceso a funciones adicionales:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Visualización de estadísticas globales</p>
+</li>
+<li>
+<p>Gestión de usuarios (bloquear/desbloquear)</p>
+</li>
+<li>
+<p>Acceso a panel de administración</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cors">8.1.3. CORS</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>El Gateway Service configura CORS para permitir peticiones solo desde el frontend</p>
+</li>
+<li>
+<p>Previene accesos no autorizados desde otros orígenes</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comunicación">8.2. Comunicación</h3>
+<div class="sect3">
+<h4 id="_api_rest">8.2.1. API REST</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Todos los servicios exponen endpoints REST usando Express.js</p>
+</li>
+<li>
+<p>Formato de intercambio de datos: <strong>JSON</strong></p>
+</li>
+<li>
+<p>Uso de métodos HTTP estándar:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>GET: Obtener datos</p>
+</li>
+<li>
+<p>POST: Crear recursos o autenticar</p>
+</li>
+<li>
+<p>PUT: Actualizar recursos</p>
+</li>
+<li>
+<p>DELETE: Eliminar recursos (si aplica)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gestión_de_errores">8.2.2. Gestión de Errores</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Códigos de estado HTTP apropiados:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>200: Éxito</p>
+</li>
+<li>
+<p>400: Error en petición del cliente</p>
+</li>
+<li>
+<p>401: No autenticado</p>
+</li>
+<li>
+<p>403: No autorizado</p>
+</li>
+<li>
+<p>404: Recurso no encontrado</p>
+</li>
+<li>
+<p>500: Error del servidor</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Mensajes de error descriptivos en español</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gestión_de_datos">8.3. Gestión de Datos</h3>
+<div class="sect3">
+<h4 id="_base_de_datos">8.3.1. Base de Datos</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>MongoDB</strong> como base de datos NoSQL compartida por todos los servicios</p>
+</li>
+<li>
+<p>Colecciones principales:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>users: Información de usuarios y credenciales</p>
+</li>
+<li>
+<p>questions: Preguntas generadas para cada categoría</p>
+</li>
+<li>
+<p>gameHistory: Historial de partidas jugadas</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_persistencia">8.3.2. Persistencia</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Cada servicio interactúa con MongoDB usando Mongoose (ODM)</p>
+</li>
+<li>
+<p>Los esquemas definen la estructura de datos esperada</p>
+</li>
+<li>
+<p>Validación de datos a nivel de modelo antes de guardar</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_experiencia_de_usuario">8.4. Experiencia de Usuario</h3>
+<div class="sect3">
+<h4 id="_interfaz">8.4.1. Interfaz</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Diseño <strong>responsive</strong> que se adapta a diferentes tamaños de pantalla</p>
+</li>
+<li>
+<p>Uso de <strong>Material-UI</strong> para componentes consistentes y profesionales</p>
+</li>
+<li>
+<p>Idioma: <strong>Español</strong> en toda la interfaz</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_feedback">8.4.2. Feedback</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Mensajes de confirmación para acciones importantes (registro, respuestas)</p>
+</li>
+<li>
+<p>Indicadores visuales de carga durante peticiones al servidor</p>
+</li>
+<li>
+<p>Validación de formularios en tiempo real</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sistema_de_pistas">8.4.3. Sistema de Pistas</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Chat integrado que mantiene conversación contextual</p>
+</li>
+<li>
+<p>Historial de chat visible durante cada pregunta</p>
+</li>
+<li>
+<p>El historial se reinicia al cambiar de pregunta</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing">8.5. Testing</h3>
+<div class="sect3">
+<h4 id="_tests_unitarios">8.5.1. Tests Unitarios</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Jest</strong> y <strong>Supertest</strong> para probar servicios backend</p>
+</li>
+<li>
+<p><strong>mongodb-memory-server</strong> para simular MongoDB sin dependencias externas</p>
+</li>
+<li>
+<p>Objetivo: Máxima cobertura de código</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tests_e2e">8.5.2. Tests E2E</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Puppeteer</strong> para automatizar navegador</p>
+</li>
+<li>
+<p><strong>Cucumber</strong> con sintaxis Gherkin para escenarios de usuario</p>
+</li>
+<li>
+<p>Uso de data-testid para seleccionar elementos de forma confiable</p>
+</li>
+<li>
+<p>Escenarios cubiertos:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Registro e inicio de sesión</p>
+</li>
+<li>
+<p>Juego completo en todas las categorías</p>
+</li>
+<li>
+<p>Visualización de estadísticas</p>
+</li>
+<li>
+<p>Funciones de administrador</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_escalabilidad">8.6. Escalabilidad</h3>
+<div class="sect3">
+<h4 id="_arquitectura_de_microservicios">8.6.1. Arquitectura de Microservicios</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Cada servicio puede escalarse de forma independiente</p>
+</li>
+<li>
+<p>Separación de responsabilidades facilita el mantenimiento</p>
+</li>
+<li>
+<p>Posibilidad de desplegar servicios en contenedores Docker</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gestión_de_carga">8.6.2. Gestión de Carga</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>El Question Service almacena preguntas generadas para reutilizarlas</p>
+</li>
+<li>
+<p>Reduce llamadas repetidas a Wikidata</p>
+</li>
+<li>
+<p>El sistema de hints utiliza un modelo optimizado (gemini-2.0-flash)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integraciones_externas">8.7. Integraciones Externas</h3>
+<div class="sect3">
+<h4 id="_wikidata">8.7.1. Wikidata</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Fuente de datos para generar preguntas de trivia</p>
+</li>
+<li>
+<p>Consultas mediante SPARQL o API REST</p>
+</li>
+<li>
+<p>Datos actualizados de capitales, banderas y monumentos</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gemini_api">8.7.2. Gemini API</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Modelo de IA: <strong>gemini-2.0-flash</strong></p>
+</li>
+<li>
+<p>Genera pistas contextuales sin revelar respuestas directamente</p>
+</li>
+<li>
+<p>Mantiene conversación natural con el usuario</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mantenibilidad">8.8. Mantenibilidad</h3>
+<div class="sect3">
+<h4 id="_organización_del_código">8.8.1. Organización del Código</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Estructura clara por servicio con carpetas separadas</p>
+</li>
+<li>
+<p>Cada microservicio tiene su propio package.json y dependencias</p>
+</li>
+<li>
+<p>Código modular con separación de rutas, controladores y modelos</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_documentación">8.8.2. Documentación</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Documentación Arc42 para arquitectura</p>
+</li>
+<li>
+<p>Comentarios en código para lógica compleja</p>
+</li>
+<li>
+<p>README con instrucciones de instalación y ejecución</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_control_de_versiones">8.8.3. Control de Versiones</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Uso de Git para control de versiones</p>
+</li>
+<li>
+<p>Repositorio organizado con código fuente y documentación</p>
+</li>
+</ul>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-design-decisions">9. Decisiones de Arquitectura</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_arquitectura_de_microservicios_2">9.1. Arquitectura de Microservicios</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Dividir el sistema en cinco servicios backend independientes (Gateway, Auth, User, Question, LLM).</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> Facilita el desarrollo en equipo al permitir trabajar en servicios diferentes simultáneamente. Simplifica el testing al poder probar cada servicio de forma aislada.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> Requiere gestionar múltiples procesos durante desarrollo. Mayor complejidad en coordinación entre servicios.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mongodb_como_base_de_datos">9.2. MongoDB como Base de Datos</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Usar MongoDB compartida por todos los servicios en lugar de bases de datos separadas.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> Simplicidad en la gestión de datos. Flexibilidad para almacenar diferentes estructuras (usuarios, preguntas, historial). Fácil integración con Node.js mediante Mongoose.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> Todos los servicios dependen de la misma instancia de MongoDB. No hay aislamiento completo de datos entre servicios.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_react_material_ui_para_frontend">9.3. React + Material-UI para Frontend</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Desarrollar la interfaz con React y Material-UI.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> React permite crear interfaces dinámicas e interactivas. Material-UI proporciona componentes visuales profesionales que aceleran el desarrollo. Amplia documentación y comunidad.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> Curva de aprendizaje para el equipo. Dependencia de librerías externas.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gateway_como_punto_único_de_entrada">9.4. Gateway como Punto Único de Entrada</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Centralizar peticiones de autenticación y usuarios a través del Gateway Service.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> Simplifica la configuración de CORS. Permite agregar lógica común (logging, validación) en un solo punto. Oculta la complejidad interna al frontend.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> El Gateway puede convertirse en cuello de botella. Punto único de fallo si no se gestiona adecuadamente.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integración_con_gemini_api">9.5. Integración con Gemini API</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Crear un servicio LLM separado que use Gemini API para generar pistas.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> Cumplir con el requisito del proyecto de integrar un LLM. Separar esta funcionalidad permite escalarla o cambiarla independientemente. Gemini ofrece un modelo gratuito y rápido (gemini-2.0-flash).</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> Dependencia de API externa. Requiere gestión de claves API y límites de uso.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_almacenamiento_de_preguntas_generadas">9.6. Almacenamiento de Preguntas Generadas</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Guardar las preguntas obtenidas de Wikidata en MongoDB.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> Reduce llamadas repetidas a Wikidata. Mejora el rendimiento del juego. Permite reutilizar preguntas entre diferentes partidas.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> Necesidad de actualizar periódicamente las preguntas para mantener datos frescos.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_exhaustivo">9.7. Testing Exhaustivo</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Implementar tests unitarios con Jest y E2E con Puppeteer/Cucumber para lograr máxima cobertura.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> Requisito del proyecto académico. Garantiza calidad del código. Facilita detectar errores antes del despliegue. Permite refactorizar con confianza.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> Mayor tiempo de desarrollo inicial. Necesidad de mantener los tests actualizados con los cambios.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_interfaz_en_español">9.8. Interfaz en Español</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Desarrollar toda la interfaz y mensajes en español.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> El proyecto está destinado a RTVE (España). Simplifica el desarrollo al no requerir internacionalización. El equipo y usuarios son hispanohablantes.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> Limita la audiencia potencial a usuarios que hablen español.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sistema_de_hints_con_historial_de_conversación">9.9. Sistema de Hints con Historial de Conversación</h3>
+<div class="paragraph">
+<p><strong>Decisión:</strong> Mantener el historial del chat de pistas en el estado de React, reiniciándolo al cambiar de pregunta.</p>
+</div>
+<div class="paragraph">
+<p><strong>Razón:</strong> Proporciona contexto a la IA para generar mejores pistas. Permite al usuario ver la conversación completa. Simplicidad al no requerir persistencia en backend.</p>
+</div>
+<div class="paragraph">
+<p><strong>Consecuencias:</strong> El historial se pierde si se recarga la página. Consumo de memoria en el navegador durante partidas largas.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-quality-scenarios">10. Requisitos de Calidad</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_árbol_de_calidad">10.1. Árbol de Calidad</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Característica de Calidad</th>
+<th class="tableblock halign-left valign-top">Aspectos Relevantes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funcionalidad</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Correctitud de respuestas, integración con APIs externas, sistema de pistas funcional</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Fiabilidad</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manejo de errores, disponibilidad de servicios, recuperación ante fallos</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Usabilidad</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interfaz intuitiva, mensajes claros, experiencia de usuario fluida</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Eficiencia</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tiempos de respuesta rápidos, uso optimizado de APIs externas</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mantenibilidad</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Código modular, documentación clara, facilidad para añadir nuevas funcionalidades</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Portabilidad</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ejecución en diferentes sistemas operativos, fácil instalación</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Testeabilidad</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cobertura de tests alta, tests automatizados, aislamiento de componentes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_escenarios_de_calidad">10.2. Escenarios de Calidad</h3>
+<div class="sect3">
+<h4 id="_funcionalidad">10.2.1. Funcionalidad</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Escenario</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema debe validar correctamente las respuestas del usuario comparándolas con la respuesta correcta almacenada en la pregunta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema de pistas debe proporcionar ayuda relevante sin revelar directamente la respuesta correcta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las preguntas deben generarse correctamente desde Wikidata con imágenes y opciones múltiples válidas</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_usabilidad">10.2.2. Usabilidad</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Escenario</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Un usuario nuevo debe poder registrarse y comenzar a jugar en menos de 2 minutos</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los mensajes de error deben ser claros y en español, indicando qué acción tomar</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La interfaz debe ser responsive y funcionar correctamente en dispositivos móviles y desktop</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El chat de pistas debe mostrar claramente quién habla (usuario o IA) y mantener el historial visible</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_fiabilidad">10.2.3. Fiabilidad</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Escenario</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Si Wikidata no responde, el sistema debe usar preguntas previamente almacenadas en MongoDB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Si Gemini API falla, el sistema debe informar al usuario que las pistas no están disponibles temporalmente</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los servicios deben manejar errores de conexión a MongoDB sin provocar caídas del sistema</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_eficiencia">10.2.4. Eficiencia</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Escenario</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las preguntas deben cargarse en menos de 2 segundos en condiciones normales de red</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema debe reutilizar preguntas almacenadas para evitar consultas repetidas a Wikidata</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las pistas de IA deben generarse en menos de 5 segundos</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_mantenibilidad_2">10.2.5. Mantenibilidad</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Escenario</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Añadir una nueva categoría de preguntas debe requerir cambios solo en el Question Service y componentes frontend relacionados</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cada microservicio debe poder ejecutarse y probarse de forma independiente</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El código debe seguir una estructura consistente para facilitar la incorporación de nuevos desarrolladores</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_testeabilidad">10.2.6. Testeabilidad</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Escenario</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Todos los servicios backend deben tener tests unitarios con cobertura superior al 80%</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los tests E2E deben cubrir los flujos principales: registro, login, juego, estadísticas</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los tests deben ejecutarse de forma automatizada y aislada usando mongodb-memory-server</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_portabilidad">10.2.7. Portabilidad</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Escenario</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema debe poder ejecutarse en Windows, Linux y macOS con Node.js y MongoDB instalados</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las instrucciones de instalación deben permitir a un desarrollador nuevo poner el sistema en marcha en menos de 15 minutos</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-technical-risks">11. Riesgos y Deudas Técnicas</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_riesgos_técnicos">11.1. Riesgos Técnicos</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Riesgo</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+<th class="tableblock halign-left valign-top">Probabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Dependencia de APIs Externas</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Si Wikidata o Gemini API caen o cambian su funcionamiento, partes del sistema dejarían de funcionar.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Base de Datos Compartida</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Un fallo en MongoDB afecta a todos los servicios simultáneamente. No hay aislamiento de datos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Gateway como Punto Único de Fallo</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Si el Gateway Service cae, la autenticación y creación de usuarios no funcionan.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Límites de API de Gemini</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exceder cuotas gratuitas o límites de rate-limiting podría bloquear el sistema de pistas.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Seguridad de Contraseñas</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Si el hashing no es suficientemente robusto, las contraseñas podrían estar en riesgo.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Escalabilidad del Frontend</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Al crecer el número de usuarios simultáneos, el frontend podría volverse lento sin optimizaciones.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_deudas_técnicas">11.2. Deudas Técnicas</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Deuda</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+<th class="tableblock halign-left valign-top">Prioridad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Sin caché de preguntas</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las preguntas se consultan de MongoDB cada vez. Implementar caché en memoria mejoraría el rendimiento.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Validación limitada en frontend</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Algunas validaciones de formularios son básicas. Mejorar validación reduciría errores.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Logs centralizados ausentes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No hay sistema de logging unificado. Dificulta depuración en producción.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Sin monitorización</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No hay métricas de rendimiento ni alertas. Problemas se detectan cuando usuarios reportan.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Gestión manual de servicios</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Iniciar/detener servicios es manual. Docker Compose simplificaría el desarrollo.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Tests E2E lentos</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los tests de Puppeteer tardan varios minutos. Optimizar o paralelizar aceleraría CI/CD.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Sin actualización automática de preguntas</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las preguntas de Wikidata no se actualizan periódicamente. Datos pueden quedar obsoletos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-glossary">12. Glosario</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Término</th>
+<th class="tableblock halign-left valign-top">Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>API</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application Programming Interface. Interfaz que permite la comunicación entre diferentes servicios o aplicaciones.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CORS</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cross-Origin Resource Sharing. Mecanismo que permite solicitudes HTTP entre diferentes orígenes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>E2E</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">End-to-End. Tipo de testing que prueba el flujo completo del sistema desde la perspectiva del usuario.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Gemini API</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API de Google que proporciona modelos de IA generativa, usado para el sistema de pistas.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Hint</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pista generada por IA que ayuda al usuario a responder preguntas sin revelar la respuesta directa.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Jest</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Framework de testing para JavaScript usado para tests unitarios.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>JWT</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON Web Token. Estándar para crear tokens de acceso que permiten autenticación.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LLM</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Large Language Model. Modelo de IA usado para generar pistas durante el juego.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Material-UI</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Biblioteca de componentes React que implementa Material Design de Google.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Microservicio</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arquitectura donde la aplicación se divide en servicios pequeños e independientes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MongoDB</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base de datos NoSQL orientada a documentos que almacena los datos del sistema.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Puppeteer</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Librería de Node.js que permite controlar navegadores Chrome para testing automatizado.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>React</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Librería de JavaScript para construir interfaces de usuario interactivas.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>REST</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representational State Transfer. Estilo arquitectónico para APIs web usando HTTP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Wikidata</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base de conocimiento libre de donde se obtienen los datos para las preguntas de trivia.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1728,8 +2356,8 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 8.2 EN<br>
-Last updated 2025-10-01 12:52:24 +0200
+Version 8.3 ES<br>
+Last updated 2025-12-28 23:53:45 +0100
 </div>
 </div>
 </body>
