@@ -185,7 +185,7 @@ function AdminStats({ onBack }) {
 
     if (loading) {
         return (
-            <Container sx={{ marginTop: 4, textAlign: 'center' }}>
+            <Container sx={{ marginTop: 4, textAlign: 'center' }} data-testid="admin-stats-loading">
                 <CircularProgress />
             </Container>
         );
@@ -194,19 +194,18 @@ function AdminStats({ onBack }) {
     if (error) {
         return (
             <Container sx={{ marginTop: 4 }}>
-                <Alert severity="error">{error}</Alert>
-                <Button onClick={onBack} sx={{ marginTop: 2 }}>Volver</Button>
+                <Alert severity="error" data-testid="admin-stats-error">{error}</Alert>
             </Container>
         );
     }
 
     return (
-        <Container sx={{ marginTop: 4, maxWidth: 'xl' }}>
+        <Container sx={{ marginTop: 4, maxWidth: 'xl' }} data-testid="admin-stats-container">
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-                <Typography variant="h4">
+                <Typography variant="h4" data-testid="admin-stats-title">
                     Estadísticas del Sistema
                 </Typography>
-                <Button variant="outlined" onClick={onBack}>
+                <Button variant="outlined" onClick={onBack} data-testid="admin-stats-back-button">
                     Volver
                 </Button>
             </Box>
@@ -215,9 +214,9 @@ function AdminStats({ onBack }) {
                 Resumen Global
             </Typography>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 2, marginBottom: 4 }}>
-                <Paper sx={{ padding: 3, textAlign: 'center' }}>
-                    <Typography variant="h3" color="primary">
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 2, marginBottom: 4 }} data-testid="admin-global-stats">
+                <Paper sx={{ padding: 3, textAlign: 'center' }} data-testid="admin-total-games-card">
+                    <Typography variant="h3" color="primary" data-testid="admin-total-games-value">
                         {globalStats.totalGames}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
@@ -225,8 +224,8 @@ function AdminStats({ onBack }) {
                     </Typography>
                 </Paper>
 
-                <Paper sx={{ padding: 3, textAlign: 'center' }}>
-                    <Typography variant="h3" color="primary">
+                <Paper sx={{ padding: 3, textAlign: 'center' }} data-testid="admin-total-players-card">
+                    <Typography variant="h3" color="primary" data-testid="admin-total-players-value">
                         {globalStats.totalPlayers}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
@@ -291,16 +290,17 @@ function AdminStats({ onBack }) {
             )}
 
             <Box sx={{ marginBottom: 3 }}>
-                <FormControl sx={{ minWidth: 300 }}>
+                <FormControl sx={{ minWidth: 300 }} data-testid="user-filter-select">
                     <InputLabel>Filtrar por Usuario</InputLabel>
                     <Select
                         value={selectedUser}
                         label="Filtrar por Usuario"
                         onChange={(e) => setSelectedUser(e.target.value)}
+                        data-testid="user-filter-dropdown"
                     >
-                        <MenuItem value="all">Todos los usuarios</MenuItem>
+                        <MenuItem value="all" data-testid="user-filter-all">Todos los usuarios</MenuItem>
                         {users.map((user) => (
-                            <MenuItem key={user._id} value={user.username}>
+                            <MenuItem key={user._id} value={user.username} data-testid={`user-filter-${user.username}`}>
                                 {user.username} ({user.role === 'admin' ? 'Admin' : 'Usuario'})
                             </MenuItem>
                         ))}
@@ -336,7 +336,7 @@ function AdminStats({ onBack }) {
                     No hay partidas registradas {selectedUser !== 'all' && 'para este usuario'}.
                 </Alert>
             ) : (
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} data-testid="admin-games-table">
                     <Table>
                         <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
                             <TableRow>

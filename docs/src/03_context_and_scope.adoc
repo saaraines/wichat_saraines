@@ -13,19 +13,19 @@ El proyecto WIChat tiene como objetivo crear una versión en línea del concurso
 
 === Contexto técnico
 
-WIChat es una aplicación web compuesta por diversos módulos, con una arquitectura basada en un enfoque de microservicios, con integración de APIs para la generación de preguntas y LLM.
+#### 3.2.1. Alcance del Sistema
 
-**Componentes principales:**
 
-* API RESTful para gestionar autenticación, preguntas y estadísticas de los usuarios.
+image::diagrama_wichat.png[Diagrama de arquitectura del sistema]
 
-* Integración con una base de datos para almacenamiento de la información.
+* **WIQ Webapp**: Módulo que soporta la interacción del usuario a través de la interfaz de usuario.
 
-* Generación de preguntas desde Wikidata
+* **Question Generation Service**: Servicio que se utiliza internamente para gestionar la recuperación de información desde Wikidata y el almacenamiento de preguntas en la base de datos.
 
-* Sistema de pistas implementando un LLM
+* **Gateway Service**: Servicio Express que está expuesto al público y sirve como proxy para la gestión de usuarios, permitiendo el registro e inicio de sesión.
 
-* Gestión de usuarios
+* **User Service**: Servicio Express que maneja la inserción de nuevos usuarios en el sistema.
 
-* Despliegue y monitoreo con contenedores de Docker y herramientas de integración contínua de Github
+* **Auth Service**: Servicio Express que maneja la autenticación de usuarios.
 
+* **LLM Service**: Servicio que proporciona pistas generadas por IA utilizando la API de Gemini para ayudar a los jugadores durante las partidas.

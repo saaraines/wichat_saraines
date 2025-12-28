@@ -1,34 +1,42 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-solution-strategy]]
-== Solution Strategy
+== Estrategia de Solución
 
+=== Decisiones Tecnológicas
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes
+* *Arquitectura de Microservicios*: Se optó por dividir el sistema en servicios independientes (Gateway, Auth, User, Question, LLM) para facilitar el desarrollo en equipo y el mantenimiento.
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+* *MongoDB*: Base de datos NoSQL elegida por su flexibilidad para almacenar diferentes tipos de datos (usuarios, preguntas, historial) y facilidad de integración con Node.js.
 
-.Motivation
-These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.
+* *React + Material-UI*: Framework frontend moderno que permite crear interfaces interactivas y responsivas de forma rápida, con componentes visuales predefinidos.
 
-.Form
-Keep the explanations of such key decisions short.
+* *APIs Externas*:
+- Wikidata para obtener datos de trivia actualizados
+- Gemini API para generar pistas inteligentes mediante IA
 
-Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.
+=== Decisiones de Alto Nivel
 
+* *Gateway como punto único de entrada*: Centraliza las peticiones del frontend y gestiona el enrutamiento a los servicios correspondientes, simplificando la comunicación.
 
-.Further Information
+* *Separación de servicios de autenticación y usuarios*: Permite gestionar de forma independiente la validación de credenciales (Auth) y la información de usuarios (User).
 
-See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
+* *Sistema de pistas con IA*: Se integró un servicio LLM separado para no sobrecargar otros servicios y poder escalar la funcionalidad de hints de forma independiente.
 
-****
-endif::arc42help[]
+* *Testing exhaustivo*: Se priorizó alcanzar máxima cobertura de tests (unitarios con Jest y E2E con Puppeteer/Cucumber) para garantizar la calidad del código.
+
+=== Estructura del Sistema
+
+La aplicación sigue un patrón cliente-servidor con arquitectura de microservicios:
+
+1. El *frontend* (React) se comunica únicamente con los servicios backend a través de HTTP
+2. El *Gateway* actúa como orquestador entre el frontend y los servicios internos
+3. Los *servicios* son independientes pero comparten la misma base de datos MongoDB
+4. Las *APIs externas* se consultan bajo demanda para obtener datos frescos
+
+=== Calidad
+
+* *Mantenibilidad*: La separación en microservicios permite modificar componentes sin afectar al resto del sistema
+* *Testabilidad*: Arquitectura diseñada para facilitar pruebas unitarias y de integración
+* *Escalabilidad*: Cada servicio puede escalarse de forma independiente según la demanda
+* *Usabilidad*: Interfaz intuitiva en español con Material-UI, sistema de pistas para ayudar a los jugadores

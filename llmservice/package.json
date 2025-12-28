@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node llm-service.js",
-    "test": "jest"
+    "test": "jest --coverage --detectOpenHandles --forceExit",
+    "test:watch": "jest --watch"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testTimeout": 30000
   },
   "author": "",
   "license": "ISC",
