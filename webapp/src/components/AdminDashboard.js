@@ -82,7 +82,7 @@ function AdminDashboard() {
     // Vista principal con los 3 botones
     return (
         <AdminLayout>
-            <Container sx={{ marginTop: 4 }}>
+            <Container sx={{ marginTop: 4 }} data-testid="admin-dashboard">
                 <Typography variant="h3" sx={{ marginBottom: 4, textAlign: 'center' }}>
                     Panel de Administración
                 </Typography>
@@ -96,8 +96,8 @@ function AdminDashboard() {
                     }}
                 >
                     {/* Botón Usuarios */}
-                    <Card sx={{ width: 250, boxShadow: 2 }}>
-                        <CardActionArea onClick={() => setSelectedSection('users')}>
+                    <Card sx={{ width: 250, boxShadow: 2 }} data-testid="admin-users-card">
+                        <CardActionArea onClick={() => setSelectedSection('users')} data-testid="admin-users-button">
                             <CardContent sx={{ textAlign: 'center', padding: 4 }}>
                                 <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#1976d2' }}>
                                     USUARIOS
@@ -110,8 +110,8 @@ function AdminDashboard() {
                     </Card>
 
                     {/* Botón Estadísticas */}
-                    <Card sx={{ width: 250, boxShadow: 2 }}>
-                        <CardActionArea onClick={() => setSelectedSection('stats')}>
+                    <Card sx={{ width: 250, boxShadow: 2 }} data-testid="admin-stats-card">
+                        <CardActionArea onClick={() => setSelectedSection('stats')} data-testid="admin-stats-button">
                             <CardContent sx={{ textAlign: 'center', padding: 4 }}>
                                 <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#2e7d32' }}>
                                     ESTADÍSTICAS
@@ -124,8 +124,8 @@ function AdminDashboard() {
                     </Card>
 
                     {/* Botón Preguntas (antes era Categorías) */}
-                    <Card sx={{ width: 250, boxShadow: 2 }}>
-                        <CardActionArea onClick={() => setSelectedSection('questions')}>
+                    <Card sx={{ width: 250, boxShadow: 2 }} data-testid="admin-questions-card">
+                        <CardActionArea onClick={() => setSelectedSection('questions')} data-testid="admin-questions-button">
                             <CardContent sx={{ textAlign: 'center', padding: 4 }}>
                                 <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#ed6c02' }}>
                                     PREGUNTAS
