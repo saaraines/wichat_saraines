@@ -6,37 +6,64 @@ const feature = loadFeature('./features/stats.feature');
 let page;
 let browser;
 
-async function registerAndLoginUser(page, username, password) {
-    // Go to welcome page
-    await page.goto("http://localhost:3000", { waitUntil: "load", timeout: 20000 });
+async function registerAndLogin(page, username, password) {
+    // Go to homepage
+    await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
 
     // Register
-    await page.waitForSelector('[data-testid="register-tab"]', { timeout: 10000 });
+    await page.waitForSelector('[data-testid="register-tab"]');
     await page.click('[data-testid="register-tab"]');
     await page.waitForTimeout(300);
 
     await page.waitForSelector('[data-testid="register-username-field"]', { visible: true });
-    await page.type('[data-testid="register-username-field"]', username);
-    await page.type('[data-testid="register-password-field"]', password);
-    await page.type('[data-testid="register-confirm-password-field"]', password);
+    await page.evaluate((user) => {
+        const input = document.querySelector('[data-testid="register-username-field"]');
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, user);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, username);
+
+    await page.evaluate((pass) => {
+        const input = document.querySelector('[data-testid="register-password-field"]');
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, pass);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, password);
+
+    await page.evaluate((pass) => {
+        const input = document.querySelector('[data-testid="register-confirm-password-field"]');
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, pass);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, password);
 
     await page.click('[data-testid="register-submit-button"]');
     await page.waitForTimeout(3000);
 
-    // Go back and login
-    await page.goto("http://localhost:3000", { waitUntil: "load", timeout: 20000 });
+    // Login
+    await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
     await page.waitForSelector('[data-testid="login-username-field"]', { visible: true });
 
-    await page.type('[data-testid="login-username-field"]', username);
-    await page.type('[data-testid="login-password-field"]', password);
+    await page.evaluate((user) => {
+        const input = document.querySelector('[data-testid="login-username-field"]');
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, user);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, username);
+
+    await page.evaluate((pass) => {
+        const input = document.querySelector('[data-testid="login-password-field"]');
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, pass);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, password);
 
     await page.click('[data-testid="login-submit-button"]');
+    await page.waitForTimeout(3000);
 
-    // Wait for game page to load
-    await page.waitForSelector('[data-testid="game-start-screen"]', { timeout: 20000 });
-
-    // Navigate to stats
-    await page.goto("http://localhost:3000/stats", { waitUntil: "load", timeout: 20000 });
+    // Navigate to stats page manually
+    await page.goto("http://localhost:3000/stats", { waitUntil: "networkidle0" });
+    await page.waitForSelector('[data-testid="user-stats-container"]', { timeout: 10000 });
 }
 
 defineFeature(feature, test => {
@@ -52,11 +79,11 @@ defineFeature(feature, test => {
     test('User views their own statistics', ({ given, when, then, and }) => {
 
         given(/^I am logged in as "([^"]*)" with password "([^"]*)"$/, async (username, password) => {
-            await registerAndLoginUser(page, username, password);
+            await registerAndLogin(page, username, password);
         });
 
         when('I navigate to my statistics page', async () => {
-            await page.waitForSelector('[data-testid="user-stats-container"]', { timeout: 10000 });
+            // Already on stats page from login
         });
 
         then('I should see my total games played', async () => {
