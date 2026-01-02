@@ -1,7 +1,6 @@
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const dotenv = require('dotenv');
 const path = require('path');
-const setupTestData = require('./setup-test-data');
 
 let mongoserver;
 let userservice;
@@ -24,14 +23,7 @@ async function startServer() {
     llmservice = await require("../../llmservice/llm-service");
     gatewayservice = await require("../../gatewayservice/gateway-service");
 
-    // Wait a bit for services to be ready
-    console.log('Waiting for services to be ready...');
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
-    // Setup test data
-    console.log('Populating test data...');
-    await setupTestData();
-    console.log('Environment ready for testing!');
+    console.log('Services ready for testing!');
 }
 
 startServer();

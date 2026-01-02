@@ -9,13 +9,42 @@ let browser;
 
 const apiEndpoint = 'http://localhost:8000';
 
-// Helper function to create a user via API
-async function createUser(username, password) {
-    try {
-        await axios.post(`${apiEndpoint}/adduser`, { username, password });
-    } catch (error) {
-        // User might already exist, ignore error
-    }
+async function registerUser(page, username, password) {
+    await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
+
+    // Click on register tab
+    await page.waitForSelector('[data-testid="register-tab"]');
+    await page.click('[data-testid="register-tab"]');
+    await page.waitForTimeout(300);
+
+    // Fill username
+    await page.waitForSelector('[data-testid="register-username-field"]', { visible: true });
+    await page.evaluate((user, selector) => {
+        const input = document.querySelector(selector);
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, user);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, username, '[data-testid="register-username-field"]');
+
+    // Fill password
+    await page.evaluate((pass, selector) => {
+        const input = document.querySelector(selector);
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, pass);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, password, '[data-testid="register-password-field"]');
+
+    // Fill confirm password
+    await page.evaluate((pass, selector) => {
+        const input = document.querySelector(selector);
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, pass);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, password, '[data-testid="register-confirm-password-field"]');
+
+    // Click register
+    await page.click('[data-testid="register-submit-button"]');
+    await page.waitForTimeout(2000);
 }
 
 defineFeature(feature, test => {
@@ -42,36 +71,29 @@ defineFeature(feature, test => {
         });
 
         when(/^I enter username "([^"]*)" and password "([^"]*)"$/, async (username, password) => {
-            // Create user first
-            await createUser(username, password);
+            // Register user first
+            await registerUser(page, username, password);
 
-            // Fill username using React's native setter
+            // Now go back to login page
+            await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
+            await page.waitForSelector('[data-testid="login-form"]', { timeout: 5000 });
+
+            // Fill username
             await page.waitForSelector('[data-testid="login-username-field"]', { visible: true });
             await page.evaluate((user, selector) => {
                 const input = document.querySelector(selector);
-                const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-                    window.HTMLInputElement.prototype,
-                    'value'
-                ).set;
-                nativeInputValueSetter.call(input, user);
+                const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                setter.call(input, user);
                 input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
             }, username, '[data-testid="login-username-field"]');
-            await page.waitForTimeout(200);
 
-            // Fill password using React's native setter
-            await page.waitForSelector('[data-testid="login-password-field"]', { visible: true });
+            // Fill password
             await page.evaluate((pass, selector) => {
                 const input = document.querySelector(selector);
-                const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-                    window.HTMLInputElement.prototype,
-                    'value'
-                ).set;
-                nativeInputValueSetter.call(input, pass);
+                const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                setter.call(input, pass);
                 input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
             }, password, '[data-testid="login-password-field"]');
-            await page.waitForTimeout(200);
         });
 
         and('I click the login button', async () => {
@@ -94,36 +116,29 @@ defineFeature(feature, test => {
         });
 
         when(/^I enter username "([^"]*)" and password "([^"]*)"$/, async (username, password) => {
-            // Create user with different password
-            await createUser(username, 'CorrectPass123');
+            // Register user with correct password
+            await registerUser(page, username, 'CorrectPass123');
 
-            // Fill username using React's native setter
+            // Go back to login
+            await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
+            await page.waitForSelector('[data-testid="login-form"]', { timeout: 5000 });
+
+            // Fill username
             await page.waitForSelector('[data-testid="login-username-field"]', { visible: true });
             await page.evaluate((user, selector) => {
                 const input = document.querySelector(selector);
-                const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-                    window.HTMLInputElement.prototype,
-                    'value'
-                ).set;
-                nativeInputValueSetter.call(input, user);
+                const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                setter.call(input, user);
                 input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
             }, username, '[data-testid="login-username-field"]');
-            await page.waitForTimeout(200);
 
-            // Fill wrong password using React's native setter
-            await page.waitForSelector('[data-testid="login-password-field"]', { visible: true });
+            // Fill WRONG password
             await page.evaluate((pass, selector) => {
                 const input = document.querySelector(selector);
-                const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-                    window.HTMLInputElement.prototype,
-                    'value'
-                ).set;
-                nativeInputValueSetter.call(input, pass);
+                const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                setter.call(input, pass);
                 input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
             }, password, '[data-testid="login-password-field"]');
-            await page.waitForTimeout(200);
         });
 
         and('I click the login button', async () => {

@@ -9,18 +9,41 @@ let browser;
 
 const apiEndpoint = 'http://localhost:8000';
 
-async function createUser(username, password) {
-    try {
-        await axios.post(`${apiEndpoint}/adduser`, { username, password });
-    } catch (error) {
-        // User might already exist
-    }
-}
-
-async function loginUser(username, password) {
+async function registerAndLoginUser(page, username, password) {
     await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
 
-    await page.waitForSelector('[data-testid="login-form"]');
+    // Register
+    await page.waitForSelector('[data-testid="register-tab"]');
+    await page.click('[data-testid="register-tab"]');
+    await page.waitForTimeout(300);
+
+    await page.waitForSelector('[data-testid="register-username-field"]', { visible: true });
+    await page.evaluate((user, selector) => {
+        const input = document.querySelector(selector);
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, user);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, username, '[data-testid="register-username-field"]');
+
+    await page.evaluate((pass, selector) => {
+        const input = document.querySelector(selector);
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, pass);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, password, '[data-testid="register-password-field"]');
+
+    await page.evaluate((pass, selector) => {
+        const input = document.querySelector(selector);
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, pass);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, password, '[data-testid="register-confirm-password-field"]');
+
+    await page.click('[data-testid="register-submit-button"]');
+    await page.waitForTimeout(2000);
+
+    // Login
+    await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
     await page.waitForSelector('[data-testid="login-username-field"]', { visible: true });
 
     await page.evaluate((user, selector) => {
@@ -30,7 +53,6 @@ async function loginUser(username, password) {
         input.dispatchEvent(new Event('input', { bubbles: true }));
     }, username, '[data-testid="login-username-field"]');
 
-    await page.waitForSelector('[data-testid="login-password-field"]', { visible: true });
     await page.evaluate((pass, selector) => {
         const input = document.querySelector(selector);
         const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
@@ -38,7 +60,6 @@ async function loginUser(username, password) {
         input.dispatchEvent(new Event('input', { bubbles: true }));
     }, password, '[data-testid="login-password-field"]');
 
-    await page.waitForSelector('[data-testid="login-submit-button"]');
     await page.click('[data-testid="login-submit-button"]');
     await page.waitForNavigation({ waitUntil: "networkidle0" });
 }
@@ -56,8 +77,7 @@ defineFeature(feature, test => {
     test('Start a game and view first question', ({ given, when, and, then }) => {
 
         given(/^I am logged in as "([^"]*)" with password "([^"]*)"$/, async (username, password) => {
-            await createUser(username, password);
-            await loginUser(username, password);
+            await registerAndLoginUser(page, username, password);
         });
 
         when(/^I select category "([^"]*)"$/, async (category) => {
@@ -95,8 +115,7 @@ defineFeature(feature, test => {
     test('Use hint system', ({ given, and, when, then }) => {
 
         given(/^I am logged in as "([^"]*)" with password "([^"]*)"$/, async (username, password) => {
-            await createUser(username, password);
-            await loginUser(username, password);
+            await registerAndLoginUser(page, username, password);
         });
 
         and('I have started a game', async () => {
