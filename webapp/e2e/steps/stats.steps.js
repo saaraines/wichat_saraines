@@ -40,7 +40,7 @@ async function registerAndLogin(page, username, password) {
     await page.click('[data-testid="register-submit-button"]');
     await page.waitForTimeout(3000);
 
-    // Login
+    // Login - redirects to /game
     await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
     await page.waitForSelector('[data-testid="login-username-field"]', { visible: true });
 
@@ -59,11 +59,14 @@ async function registerAndLogin(page, username, password) {
     }, password);
 
     await page.click('[data-testid="login-submit-button"]');
-    await page.waitForTimeout(3000);
 
-    // Navigate to stats page manually
+    // Wait for login redirect to /game
+    await page.waitForTimeout(1000);
+    await page.waitForSelector('[data-testid="game-start-screen"]', { timeout: 10000 });
+
+    // Navigate to stats manually
     await page.goto("http://localhost:3000/stats", { waitUntil: "networkidle0" });
-    await page.waitForSelector('[data-testid="user-stats-container"]', { timeout: 10000 });
+    await page.waitForSelector('[data-testid="total-games-card"]', { timeout: 15000 });
 }
 
 defineFeature(feature, test => {
@@ -83,7 +86,7 @@ defineFeature(feature, test => {
         });
 
         when('I navigate to my statistics page', async () => {
-            // Already on stats page from login
+            // Already on stats page from registerAndLogin
         });
 
         then('I should see my total games played', async () => {
