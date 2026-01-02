@@ -24,13 +24,15 @@ async function createUserAndLogin(page, username, password) {
     // Navigate and set token in localStorage
     await page.goto("http://localhost:3000", { waitUntil: "load", timeout: 20000 });
 
-    await page.evaluate((token, username) => {
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', username);
+    await page.evaluate((tokenValue, usernameValue) => {
+        localStorage.setItem('token', tokenValue);
+        localStorage.setItem('username', usernameValue);
     }, token, username);
 
     // Navigate to game page
     await page.goto("http://localhost:3000/game", { waitUntil: "load", timeout: 20000 });
+
+    return true;
 }
 
 defineFeature(feature, test => {
