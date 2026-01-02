@@ -21,17 +21,16 @@ async function createUserAndLogin(page, username, password) {
     const loginResponse = await axios.post(`${apiEndpoint}/login`, { username, password });
     const token = loginResponse.data.token;
 
-    // Set token in browser localStorage
-    await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
-    await page.evaluate((token) => {
-        localStorage.setItem('token', token);
-    }, token);
-    await page.evaluate((username) => {
-        localStorage.setItem('username', username);
-    }, username);
+    // Navigate and set token in localStorage
+    await page.goto("http://localhost:3000", { waitUntil: "load", timeout: 20000 });
 
-    // Reload to apply login
-    await page.goto("http://localhost:3000/game", { waitUntil: "networkidle0", timeout: 20000 });
+    await page.evaluate((token, username) => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
+    }, token, username);
+
+    // Navigate to game page
+    await page.goto("http://localhost:3000/game", { waitUntil: "load", timeout: 20000 });
 }
 
 defineFeature(feature, test => {
@@ -107,13 +106,6 @@ defineFeature(feature, test => {
             await page.waitForSelector('[data-testid="hint-chat-window"]', { timeout: 10000 });
             const hintChat = await page.$('[data-testid="hint-chat-window"]');
             expect(hintChat).not.toBeNull();
-        });
-    });
-
-    afterEach(async () => {
-        // Logout after each test
-        await page.evaluate(() => {
-            localStorage.clear();
         });
     });
 
