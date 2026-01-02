@@ -1,38 +1,42 @@
 const puppeteer = require('puppeteer');
 const { defineFeature, loadFeature } = require('jest-cucumber');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions;
-const axios = require('axios');
 const feature = loadFeature('./features/stats.feature');
 
 let page;
 let browser;
 
-const apiEndpoint = 'http://localhost:8000';
-
-async function createUserAndLogin(page, username, password) {
-    // Create user via API
-    try {
-        await axios.post(`${apiEndpoint}/adduser`, { username, password });
-    } catch (error) {
-        // User might exist
-    }
-
-    // Get token via API
-    const loginResponse = await axios.post(`${apiEndpoint}/login`, { username, password });
-    const token = loginResponse.data.token;
-
-    // Navigate and set token in localStorage
+async function registerAndLoginUser(page, username, password) {
+    // Go to welcome page
     await page.goto("http://localhost:3000", { waitUntil: "load", timeout: 20000 });
 
-    await page.evaluate((tokenValue, usernameValue) => {
-        localStorage.setItem('token', tokenValue);
-        localStorage.setItem('username', usernameValue);
-    }, token, username);
+    // Register
+    await page.waitForSelector('[data-testid="register-tab"]', { timeout: 10000 });
+    await page.click('[data-testid="register-tab"]');
+    await page.waitForTimeout(300);
 
-    // Navigate to stats page
+    await page.waitForSelector('[data-testid="register-username-field"]', { visible: true });
+    await page.type('[data-testid="register-username-field"]', username);
+    await page.type('[data-testid="register-password-field"]', password);
+    await page.type('[data-testid="register-confirm-password-field"]', password);
+
+    await page.click('[data-testid="register-submit-button"]');
+    await page.waitForTimeout(3000);
+
+    // Go back and login
+    await page.goto("http://localhost:3000", { waitUntil: "load", timeout: 20000 });
+    await page.waitForSelector('[data-testid="login-username-field"]', { visible: true });
+
+    await page.type('[data-testid="login-username-field"]', username);
+    await page.type('[data-testid="login-password-field"]', password);
+
+    await page.click('[data-testid="login-submit-button"]');
+
+    // Wait for game page to load
+    await page.waitForSelector('[data-testid="game-start-screen"]', { timeout: 20000 });
+
+    // Navigate to stats
     await page.goto("http://localhost:3000/stats", { waitUntil: "load", timeout: 20000 });
-
-    return true;
 }
 
 defineFeature(feature, test => {
@@ -48,7 +52,7 @@ defineFeature(feature, test => {
     test('User views their own statistics', ({ given, when, then, and }) => {
 
         given(/^I am logged in as "([^"]*)" with password "([^"]*)"$/, async (username, password) => {
-            await createUserAndLogin(page, username, password);
+            await registerAndLoginUser(page, username, password);
         });
 
         when('I navigate to my statistics page', async () => {
