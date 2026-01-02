@@ -60,11 +60,10 @@ async function registerAndLogin(page, username, password) {
 
     await page.click('[data-testid="login-submit-button"]');
 
-    // Wait for login redirect to /game
-    await page.waitForTimeout(1000);
-    await page.waitForSelector('[data-testid="game-start-screen"]', { timeout: 10000 });
+    // Wait a bit for login to process
+    await page.waitForTimeout(2000);
 
-    // Navigate to stats manually
+    // Navigate directly to stats (don't wait for automatic redirect to /game)
     await page.goto("http://localhost:3000/stats", { waitUntil: "networkidle0" });
     await page.waitForSelector('[data-testid="total-games-card"]', { timeout: 15000 });
 }

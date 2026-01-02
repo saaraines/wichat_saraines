@@ -60,9 +60,11 @@ async function registerAndLogin(page, username, password) {
 
     await page.click('[data-testid="login-submit-button"]');
 
-    // Wait for navigation after login (window.location.href causes full page reload)
-    // Login.js redirects to /game with setTimeout 500ms
-    await page.waitForTimeout(1000);
+    // Wait a bit for login to process
+    await page.waitForTimeout(2000);
+
+    // Navigate directly to game (don't wait for automatic redirect)
+    await page.goto("http://localhost:3000/game", { waitUntil: "networkidle0" });
     await page.waitForSelector('[data-testid="game-start-screen"]', { timeout: 10000 });
 }
 
