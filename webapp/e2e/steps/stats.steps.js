@@ -9,34 +9,29 @@ let browser;
 
 const apiEndpoint = 'http://localhost:8000';
 
-async function registerAndLoginUser(page, username, password) {
-    // Register via API
+async function createUserAndLogin(page, username, password) {
+    // Create user via API
     try {
         await axios.post(`${apiEndpoint}/adduser`, { username, password });
     } catch (error) {
-        // User might already exist
+        // User might exist
     }
 
-    // Login via UI
-    await page.goto("http://localhost:3000", { waitUntil: "networkidle0", timeout: 20000 });
-    await page.waitForSelector('[data-testid="login-username-field"]', { visible: true, timeout: 10000 });
+    // Get token via API
+    const loginResponse = await axios.post(`${apiEndpoint}/login`, { username, password });
+    const token = loginResponse.data.token;
 
-    await page.evaluate((user, selector) => {
-        const input = document.querySelector(selector);
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-        setter.call(input, user);
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-    }, username, '[data-testid="login-username-field"]');
+    // Set token in browser localStorage
+    await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
+    await page.evaluate((token) => {
+        localStorage.setItem('token', token);
+    }, token);
+    await page.evaluate((username) => {
+        localStorage.setItem('username', username);
+    }, username);
 
-    await page.evaluate((pass, selector) => {
-        const input = document.querySelector(selector);
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-        setter.call(input, pass);
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-    }, password, '[data-testid="login-password-field"]');
-
-    await page.click('[data-testid="login-submit-button"]');
-    await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 20000 });
+    // Reload to apply login
+    await page.goto("http://localhost:3000/stats", { waitUntil: "networkidle0", timeout: 20000 });
 }
 
 defineFeature(feature, test => {
@@ -52,11 +47,10 @@ defineFeature(feature, test => {
     test('User views their own statistics', ({ given, when, then, and }) => {
 
         given(/^I am logged in as "([^"]*)" with password "([^"]*)"$/, async (username, password) => {
-            await registerAndLoginUser(page, username, password);
+            await createUserAndLogin(page, username, password);
         });
 
         when('I navigate to my statistics page', async () => {
-            await page.goto("http://localhost:3000/stats", { waitUntil: "networkidle0", timeout: 20000 });
             await page.waitForSelector('[data-testid="user-stats-container"]', { timeout: 10000 });
         });
 
@@ -67,10 +61,16 @@ defineFeature(feature, test => {
         });
 
         and('I should see my game history', async () => {
-            // Check either games table or no games message
             const gamesTable = await page.$('[data-testid="games-table"]');
             const noGamesMessage = await page.$('[data-testid="no-games-message"]');
             expect(gamesTable !== null || noGamesMessage !== null).toBe(true);
+        });
+    });
+
+    afterEach(async () => {
+        // Logout after each test
+        await page.evaluate(() => {
+            localStorage.clear();
         });
     });
 

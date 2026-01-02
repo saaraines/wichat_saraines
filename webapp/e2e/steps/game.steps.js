@@ -9,34 +9,29 @@ let browser;
 
 const apiEndpoint = 'http://localhost:8000';
 
-async function registerAndLoginUser(page, username, password) {
-    // Register via API
+async function createUserAndLogin(page, username, password) {
+    // Create user via API
     try {
         await axios.post(`${apiEndpoint}/adduser`, { username, password });
     } catch (error) {
-        // User might already exist
+        // User might exist
     }
 
-    // Login via UI
-    await page.goto("http://localhost:3000", { waitUntil: "networkidle0", timeout: 20000 });
-    await page.waitForSelector('[data-testid="login-username-field"]', { visible: true, timeout: 10000 });
+    // Get token via API
+    const loginResponse = await axios.post(`${apiEndpoint}/login`, { username, password });
+    const token = loginResponse.data.token;
 
-    await page.evaluate((user, selector) => {
-        const input = document.querySelector(selector);
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-        setter.call(input, user);
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-    }, username, '[data-testid="login-username-field"]');
+    // Set token in browser localStorage
+    await page.goto("http://localhost:3000", { waitUntil: "networkidle0" });
+    await page.evaluate((token) => {
+        localStorage.setItem('token', token);
+    }, token);
+    await page.evaluate((username) => {
+        localStorage.setItem('username', username);
+    }, username);
 
-    await page.evaluate((pass, selector) => {
-        const input = document.querySelector(selector);
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-        setter.call(input, pass);
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-    }, password, '[data-testid="login-password-field"]');
-
-    await page.click('[data-testid="login-submit-button"]');
-    await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 20000 });
+    // Reload to apply login
+    await page.goto("http://localhost:3000/game", { waitUntil: "networkidle0", timeout: 20000 });
 }
 
 defineFeature(feature, test => {
@@ -52,7 +47,7 @@ defineFeature(feature, test => {
     test('Start a game and view first question', ({ given, when, and, then }) => {
 
         given(/^I am logged in as "([^"]*)" with password "([^"]*)"$/, async (username, password) => {
-            await registerAndLoginUser(page, username, password);
+            await createUserAndLogin(page, username, password);
         });
 
         when(/^I select category "([^"]*)"$/, async (category) => {
@@ -81,7 +76,6 @@ defineFeature(feature, test => {
         });
 
         and('I should see a question', async () => {
-            // Just check timer is visible
             await page.waitForSelector('[data-testid="time-left"]', { timeout: 10000 });
             const timer = await page.$('[data-testid="time-left"]');
             expect(timer).not.toBeNull();
@@ -91,7 +85,7 @@ defineFeature(feature, test => {
     test('Use hint system', ({ given, and, when, then }) => {
 
         given(/^I am logged in as "([^"]*)" with password "([^"]*)"$/, async (username, password) => {
-            await registerAndLoginUser(page, username, password);
+            await createUserAndLogin(page, username, password);
         });
 
         and('I have started a game', async () => {
@@ -113,6 +107,13 @@ defineFeature(feature, test => {
             await page.waitForSelector('[data-testid="hint-chat-window"]', { timeout: 10000 });
             const hintChat = await page.$('[data-testid="hint-chat-window"]');
             expect(hintChat).not.toBeNull();
+        });
+    });
+
+    afterEach(async () => {
+        // Logout after each test
+        await page.evaluate(() => {
+            localStorage.clear();
         });
     });
 
