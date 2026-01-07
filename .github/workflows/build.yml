@@ -23,8 +23,17 @@ jobs:
       - run: npm --prefix llmservice test -- --coverage
       - run: npm --prefix gatewayservice test -- --coverage
       - run: npm --prefix webapp test -- --coverage
-      - name: Analyze with SonarQube
-        uses: SonarSource/sonarqube-scan-action@master
+
+  sonarqube:
+    name: SonarQube
+    needs: [unit-tests]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
