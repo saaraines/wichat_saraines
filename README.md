@@ -1,4 +1,4 @@
-# wichat_0
+# wichat_saraines
 
 [![CI](https://github.com/saaraines/wichat_saraines/actions/workflows/build.yml/badge.svg)](https://github.com/saaraines/wichat_saraines/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=saaraines_wichat_saraines&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=saaraines_wichat_saraines)
