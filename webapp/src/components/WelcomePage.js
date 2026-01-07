@@ -55,7 +55,7 @@ function WelcomePage() {
                         }}
                         data-testid="app-subtitle"
                     >
-                        Sistema de gestión de usuarios - ASW 2024/2025
+                        Juego de preguntas - ASW 2024/2025
                     </Typography>
 
                     <Tabs
